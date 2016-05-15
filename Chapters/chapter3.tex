@@ -1,86 +1,155 @@
-\chapter{Testing script}
-Testing script is one of the core of testing framework.
-A testing script can be called a test case.
-This chapter describes the components that make up a testing script. At the end of chapter, there are some examples of testing scripts I use for experiments in Chapter \ref{ch:experiments}.
+\chapter{Systems Design}
+\section{Mechanical Design}
+The mechanical design of the robot must be simple yet effective. Also, the parts used for the frame and the moving actuator arms needs to be quite cheap. The proportions of the actuator arms are not that crucial as the control system can take the slight proportion errors into account if it is programmed correctly. However, to make the robot as effective as possible, the actuator arm proportions should be designed so that all three of them are identical and that the mechanical design can be designed in a simple way. This is just to decrease the workload on the mechanical system design part of our project as I'm from an information technology engineering background. By default, the mechanical system design should not be my strongest aspect. Component wise I'm planning on doing the actuator arms so that they can be adjusted to get the robot to work as effective as possible. I'm planned to make our robot look lightweight and cheap but be sturdy and rigid enough for the actuator to be  accurate. The actual way to achieve our goals will be achieved through using Acrylic glass(\glspl{pmma}) sheets and parts, whose structural strength will be achieved through effective structural design.
 
-\section{Testing script components}
-A testing script consists of one or more script actions. Each script action has following elements:
-    \begin{itemize}
-		\item[--] \textbf{Source object}: element on the screen to be applied action on which is detected in Chapter \ref{ch:screen_recognize}
-		\item[--] \textbf{Action}: what to do with source object, will be covered in Section \ref{sec:actions}.
-		\item[--] \textbf{Execution time}: how long it takes to complete the action
-		\item[--] \textbf{Expected object} (optional, depended on each action): after finishing action, what expected to be display on the screen
-	\end{itemize}
+The robot's goal is to operate in the smart-phone screen size (4" x 6"). With this in mind, I guessed the length of the lower arms, simulating the arms in GeoGebra\cite{GeoGebra_thesis}(the dynamic mathematics software for education) and then modeling them in SolidWorks. The only guideline I had was to keep the upper arms shorter than the lower arms for the best range and keep the two rods of each lower arm as far apart as possible for stability.
+\begin{figure}[H]	
+	\centering
+	\includegraphics[width=\maxwidth{15cm}, keepaspectratio]{Chapters/Fig/3D_delta_robot_simulator.png}
+	\caption{3D Delta Robot simulator\cite{GeoGebra_deltarobot_simulator_thesis}}
+	\label{fig:3D_delta_robot_simulator}
+\end{figure}
 
-\subsection{Actions}
-\label{sec:actions}
-The robot is designed for physically contacting with the phone. It simulates human operations to perform testing process.
-There are 4 basic actions for robot to apply on mobile phone screen:
-    \begin{itemize}
-		\item[--] \textbf{Click}: perform a quick single tap on screen
-		\item[--] \textbf{Hold}: tap and keep pointer on the screen for a short time then release
-		\item[--] \textbf{Drag}: tap on the screen, move pointer to a certain location then release
-		\item[--] \textbf{Flick}: tap on the screen and quickly move pointer apart and release
-	\end{itemize}
+I simulate Delta robot by GeoGebra and find out the parameters needed, show in Table.\ref{tab:arduinomega2560_technical_specs}. I head out and model it all out in SolidWorks.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\maxwidth{15cm}, keepaspectratio]{Chapters/Fig/key_parameters.png}
+	\caption{Key parameters of robot's geometry}
+	\label{fig:key_parameters}
+\end{figure}
 
-\subsection{States of system}
-    \begin{figure}[H]
-		\centering
-		\includegraphics[scale=0.7]{Chapters/Fig/system_state.png}
-		\caption{System state diagram}
-		\label{fig:system_state}
-	\end{figure}
+\begin{table}[H]
+	\centering
+	\caption{Key parameters of robot's geometry}	
+	\label{tab:arduinomega2560_technical_specs}
+	\begin{tabularx}{0.65\textwidth}{ll}
+		\toprule
+		\textbf{Parameter} & \textbf{Length(mm)} 		\\
+		\midrule
+		Side of the fixed triangle(f) & 352.78 			\\
+		\midrule
+		Side of the end effector triangle(e) & 96.54 	\\
+		\midrule
+		Length of the upper joint($r_{f}$) & 69.85 		\\
+		\midrule
+		Length of the parallelogram joint($r_{e}$) & 306.00 \\
+		\bottomrule
+	\end{tabularx}
+\end{table}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\maxwidth{15cm}, keepaspectratio]{Chapters/Fig/robot_isometric_view.png}
+	\caption{Isometric view of Delta robot}
+	\label{fig:robot_isometric_view}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\maxwidth{15cm}, keepaspectratio]{Chapters/Fig/robot_top_view.png}
+	\caption{Top view of Delta robot}
+	\label{fig:robot_top_view}
+\end{figure}
+
+I made the upper-to-lower arm length ratio much smaller, to get the precision over a larger range on the XY plane, at the expense of Z traversal. If the upper arms were quite long, relative to the lower arm. This made for the really great range in the Z dimension. But for a phone-testing robot, this is useless. Since the arms were so long, small movements in the motors created large movements in the manipulator. I got poor results in the accuracy of the action. For the best range of motion for touching, when the touch-pen is centered on the phone, the upper arms should be near horizontal, relative to the robot.
+And potentiometers were linked to the output shaft through gears.
+
+\subsubsection{Parts list of Delta robot:}
+\begin{itemize}
+		\item Custom mechanical parts cut from 3mm thick Acrylic glass(\glspl{pmma})
+		\item Three Gear Ratio 5:1 Nema 17 Stepper Motor 0.4A 12V
+		\item 2.5m threaded rod $\phi$3mm
+		\item A bunch of various M3 socket cap screws and nuts
+		\item Traxxas 5347 Rod Ends with Hollow Balls Large Revo\cite{traxxas_5347_thesis}
+		\item Arduino 2560 microcontrollers
+		\item 3 Pololu A4988 stepper motor driver
+		\item 12V power supply
+		\item Power filtering capacitor, 1 x 104 (0.1$\mu$F/50V) ceramic capacitor and 1 x Electrolytic capacitor( 2000$\mu$F, 16V)
+		\item 3 rotary potentiometer 10K ohms
+		\item LCD 16x2
+\end{itemize}
 
 
-\subsection{System sequence diagram}
-    \begin{figure}[H]
-		\centering
-		\includegraphics[scale=0.75]{Chapters/Fig/sequence_diagram.png}
-		\caption{System sequence diagram}
-		\label{fig:sequence_diagram}
-	\end{figure}
+\section{Control circuit design}
+The electronic design is a rather simple and straight forward step. I'm using an Arduino MEGA 2560 board as our control board and Stepper Motor as motors, which is controlled by Pololu A4988 Driver. To get status of stepper motor, i using 10k ohm potentiometer linked to the output stepper motor's shaft through gears. In addition, LCD 16x2 is used to display the value of potentiometer in real time.
 
-\subsection{Implementation}
-    \begin{figure}[H]
-		\centering
-		\includegraphics[scale=0.55]{Chapters/Fig/class_diagram.png}
-		\caption{System class diagram}
-		\label{fig:class_diagram}
-	\end{figure}
+\subsection{Control stepper motor circuit design}
+Here are the pinouts from the Pololu A4988 driver and the corresponding pin connection on the Arduino MEGA 2560:
+\begin{table}[H]
+	\centering
+	\caption{The pinouts from the Pololu A4988 driver and the corresponding pin connection on the Arduino MEGA 2560}	
+	\label{tab:A4988_connectto_Arduino}
+	\begin{tabularx}{0.65\textwidth}{lll}
+		\toprule
+		\textbf{Driver index} & \textbf{A4988 Pin} & \textbf{Arduino Pin} \\
+		\midrule
+		\multirow{3}{*}{1st}	& Dir       & 7            \\
+		                   	 	& Step      & 6            \\
+		                   	 	& Enable    & 5            \\
+		\midrule
+		\multirow{3}{*}{2nd} 	& Dir       & 4            \\
+		                   	 	& Step      & 3            \\
+		                   	 	& Enable    & 2            \\
+       	\midrule
+      	\multirow{3}{*}{3rd} 	& Dir       & 14           \\
+		                   	 	& Step      & 15           \\
+		                   		& Enable    & 16           \\
+		\bottomrule
+	\end{tabularx}
+\end{table}
 
-Main components of the system
-	\begin{figure}[H]
-		\centering
-		\includegraphics[scale=0.75]{Chapters/Fig/main_class.png}
-		\caption{System main components}
-		\label{fig:main_class}
-	\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\maxwidth{15cm}, keepaspectratio]{Chapters/Fig/stepper_coltroler_circuit.png}
+	\caption{Control stepper motor circuit design}
+	\label{fig:stepper_coltroler_circuit}
+\end{figure}
 
-Script Generator structure
-	\begin{figure}[H]
-		\centering
-		\includegraphics[scale=0.75]{Chapters/Fig/script_gen.png}
-		\caption{Script Generator structure}
-		\label{fig:script_gen}
-	\end{figure}
+\subsection{Control LCD Displays circuit design}
+Here are the pinouts from the LCD and the corresponding pin connection on the Arduino MEGA 2560:
+\begin{table}[H]
+	\centering
+	\caption{Pinouts from the LCD and the corresponding pin connection on the Arduino}	
+	\label{tab:LCD_connectto_Arduino}
+	\begin{tabularx}{0.65\textwidth}{lll}
+		\toprule
+		\textbf{Symbol} & \textbf{Function} & \textbf{Arduino Pin} 	\\
+		\midrule
+		Vss & ground(0 V) & ground (0 V) 							\\
+		\midrule
+		Vdd & power (4.5 – 5.5 V) & +5V 							\\
+		\midrule
+		Vo & contrast adjustment & wiper( output) 					\\
+		& & of 10k ohm potentiometer 								\\
+		\midrule
+		RS & H/L register select signal & 42 						\\
+		\midrule
+		R/W	& H/L read/write signal & ground (0 V) 					\\
+		\midrule
+		E & H/L enable signal	& 44 								\\
+		\midrule
+		DB4	& H/L data bus for 4-bit mode & 46 						\\
+		\midrule
+		DB5	& H/L data bus for 4--bit mode & 48 					\\
+		\midrule
+		DB6	& H/L data bus for 4-bit mode & 50 						\\
+		\midrule
+		DB7	& H/L data bus for 4-bit mode & 52 						\\
+		\bottomrule
+	\end{tabularx}
+\end{table}
 
-Image Processor structure
-	\begin{figure}[H]
-		\centering
-		\includegraphics[scale=0.75]{Chapters/Fig/img_processor.png}
-		\caption{Image Processor structure}
-		\label{fig:img_processor}
-	\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\maxwidth{15cm}, keepaspectratio]{Chapters/Fig/deltarobot_LCD_16x2.png}
+	\caption{LCD display interconnection}
+	\label{fig:deltarobot_LCD_16x2}
+\end{figure}
 
-Action Generator structure
-	\begin{figure}[H]
-		\centering
-		\includegraphics[scale=0.75]{Chapters/Fig/act_gen.png}
-		\caption{Action Generator structure}
-		\label{fig:act_gen}
-	\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\maxwidth{15cm}, keepaspectratio]{Chapters/Fig/Deltarobot_LCD_16x2_schem.png}
+	\caption{Schematic of control LCD Displays circuit}
+	\label{fig:Deltarobot_LCD_16x2_schem}
+\end{figure}
+\section{Software Design}
 
-\section{Testing script example}
-\subsection{Simple click test}
-
-\subsection{Set alarm test}
