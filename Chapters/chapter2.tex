@@ -4,9 +4,39 @@
 
 \chapter{Background}
 \section{Robotics}
-The word robot was introduced in 1921 by the Czech playwright Karel Capek in his satirical play R. U. R. (Rossums’s Universal Robots),where he depicted robots as machines which resembled people but worked tirelessly The structure of a robot is usually mostly mechanical and can be called a kinematic chain. The system structures of a robot various depending on the task it will perform. A typically industrial robot is the serial robot which is built up by an open kinematic chain. This chain can be described as links connected to each other with revolute joints driven by actuators. This type of structure is often seen in the car industry.
-The history of industrial automation is characterized by periods of rapid change in popular methods. Either as a cause or, perhaps, an effect, such periods of change in automation techniques seem closely tied to world economics. Along with computer aided design (CAD) systems, and computer aided manufacturing (CAM) systems the industrial robot became identifiable as a unique device, in the 1960’s (2). The robots are growing in complexity and their use in industry is becoming more widespread. This leads to new structures with different advantages and disadvantages.
-Parallel structures as the Delta robot possess a number of advantages when compared with serial manipulators. They offer generally a much higher rigidity and smaller mobile mass than their serial counterparts. Thus they can move a much heavier payload relative to the components of body mass compared to a serial manipulator. The system structure of a Delta robot also makes it more stiff perpendicular to the travelling plate (e.g. resistive against vibration perpendicular to the travelling plate). The major drawback of the parallel robots is their limited range of motion compared to a serial robot, but with a system structure as the Delta robot this limitation has partially been resolved.
+The word robot was introduced in 1921 by the Czech playwright Karel Capek in his satirical play R. U. R. (Rossum’s Universal Robots),where he depicted robots as machines which resembled people but worked tirelessly The structure of a robot is usually mostly mechanical and can be called a kinematic chain. The system structures of a robot various depending on the task it will perform. A typically industrial robot is the serial robot which is built up by an open kinematic chain. This chain can be described as links connected to each other with revolute joints driven by actuators. This type of structure is often seen in the car industry.
+The history of industrial automation is characterized by periods of rapid change in popular methods. Either as a cause or, perhaps, an effect, such periods of change in automation techniques seem closely tied to world economics. Along with computer aided design (CAD) systems, and computer aided manufacturing (CAM) systems the industrial robot became identifiable as a unique device, in the 1960’s (2). The robots are growing in complexity and their use in industry is becoming more widespread. This leads to new structures with different advantages and disadvantages\cite{intro_robotic_thesis}.
+
+Parallel structures as the Delta robot possess a number of advantages when compared with serial manipulators. They offer generally a much higher rigidity and smaller mobile mass than their serial counterparts. Thus, they can move a much heavier payload relative to the components of body mass compared to a serial manipulator. The system structure of a Delta robot also makes it more stiff perpendicular to the traveling plate (e.g. resistive against vibration perpendicular to the traveling plate). The major drawback of the parallel robots is their limited range of motion compared to a serial robot, but with a system structure as the Delta robot, this limitation has partially been resolved.
+
+\begin{table}[H]
+\centering
+\caption{Characteristics of serial and parallel robots\cite{compare_serial_parallel_robots_thesis}}
+\label{tab:Characteristics_of_serial_and_parallel_robots}
+\begin{tabular}{|l|l|l|}
+\specialrule{.2em}{.1em}{.1em}
+\textbf{Feature}                & \textbf{Serial robot} & \textbf{Parallel robot} \\ \specialrule{.2em}{.1em}{.1em}
+Workspace                       & Large      			& Small and complex       \\ \hline
+Solving forward kinematics      & Easy  				& Very \\ \hline
+Solving inverse kinematics      & Difficult             & Easy                     \\ \hline
+Position error                  & Accumulates           & Averages                 \\ \hline
+Force error                     & Averages              & Accumulates              \\ \hline
+Maximum force                   & \begin{tabular}[c]{@{}l@{}}Limited by minimum\\ actuator force\end{tabular} & \begin{tabular}[c]{@{}l@{}}Summation of all\\ actuator forces\end{tabular}           \\ \hline
+Stiffness                       & Low                   & High                     \\ \hline
+Dynamics characteristics        & \begin{tabular}[c]{@{}l@{}}Poor, especially with \\ increasing the size\end{tabular} & Very high             \\ \hline
+\begin{tabular}[c]{@{}l@{}}Modelling andsolving \\ dynamics\end{tabular} & Relatively simple     & Very complex       \\ \hline
+Inertia                         & Large                 & Small                    \\ \hline
+Areas ofapplication             & \begin{tabular}[c]{@{}l@{}}A great number in \\ different areas, \\ especially in industry\end{tabular} & \begin{tabular}[c]{@{}l@{}}Currently limited, \\ especially in industry\end{tabular} \\ \hline
+Payload/weight ratio            & Low                   & High                     \\ \hline
+Speed andacceleration           & Low                   & High               		\\ \hline
+Accuracy                        & Low                   & High                   	\\ \hline
+Uniformity ofcomponents         & Low                   & High                      \\ \hline
+Calibration                     & Relatively simple     & Complicated               \\ \hline
+Workspace/robot size ratio      & High                  & Low               		\\ \hline
+\end{tabular}
+\end{table}
+% Với mục đích phục vụ cho hệ thống kiểm thử, tôi cần 1 cánh tay robot có tốc độ cao, hoạt động ổn định và chính xác trong không gian nhỏ. Từ những ưu nhược điểm đã phân tích trong bảng trên, tôi quyết định chọn Delta robot cho hệ thống kiểm thử của mình.
+
 \section{Delta Robot}
 It is in the early 80's when Reymond Clavel (professor at EPFL - École Polytechnique Fédérale de Lausanne) comes up with the brilliant idea of using parallelograms to build a parallel robot with three translational and one rotational degree of freedom. Contrary to opinions published elsewhere, his inspiration was truly original and does not come from a parallel mechanism patented by Willard L. Pollard in 1942, which at that time was not known to Professor Clavel. The latter calls his creation the Delta robot, without suspecting that at the turn of the century, it will establish itself as one of the most successful parallel robot designs, with several hundred active robots worldwide. In 1999, Dr. Clavel is presented with the Golden Robot Award, sponsored by ABB Flexible Automation, for his innovative work on the Delta parallel robot\cite{intro_deltarobot_thesis}. 
 \subsection{The Design}
@@ -17,13 +47,17 @@ It is in the early 80's when Reymond Clavel (professor at EPFL - École Polytech
 	\label{fig:deltarobot_first_design}
 \end{figure}
 The basic idea behind the Delta parallel robot design is the use of parallelograms. A parallelogram allows an output link to remain at a fixed orientation with respect to an input link. The use of three such parallelograms restrain completely the orientation of the mobile platform which remains only with three purely translational degrees of freedom. The input links of the three parallelograms are mounted on rotating levers via revolute joints. The revolute joints of the rotating levers are actuated in two different ways: with rotational (DC or AC servo) motors or with linear actuators. Finally, a fourth leg is used to transmit rotary motion from the base to an end-effector mounted on the mobile platform\cite{intro_deltarobot_thesis}.
+
 The use of base-mounted actuators and low-mass links allows the mobile platform to achieve accelerations of up to 50 G in experimental environments and 12 G in industrial applications. This makes the Delta robot a perfect candidate for pick and place operations of light objects (from 10 gr to 1 kg). Ideally, its workspace is the intersection of three right circular tori. The Delta robots available on the market operate typically in a cylindrical workspace which is 1 m in diameter and 0.2 m high.
+
 \subsection{Application}
 Industries that take advantage of the Delta robot’s high speed are the packaging, medical and pharmaceutical industries. Other possible applications include assembly tasks or operation in a clean room for electronic components. More recently, Delta robot is the low-cost solution to build 3D printer for about a few hundred dollars from RepRap project\cite{reprap_thesis}. The Delta robot’s structure can also be used to build a Automated System Testing for mobile phone.
 
 \section{Delta robot kinematics}
 To build delta robot we needed to solve two problems. Firstly, given the desired position of the end effector (for example, to catch a pancake in the point with coordinates x,y,z), it is necessary to determine the corresponding angles of each of three arms (joint angles) in order to set the motors (and, thereby, the end effector) in proper position for grasping. This process is known as inverse kinematics. 
+
 And, secondly, if the joint angles are known (for example, by reading the values of the motor encoders), it is necessary to determine the position of the end effector (i.e. to make some corrections regarding its current position). This is known as a forward kinematics problem. 
+
 To be more formal, let's look at the kinematic scheme of the delta robot. The platforms are two equilateral triangles: the fixed triangle with the motors is green, and the movable triangle with the end effector is pink. The joint angles are $\theta_{1}$, $\theta_{2}$ and $\theta_{3}$, and the point is the end effector’s position with coordinates ($x_{0}$, $y_{0}$, $z_{0}$).
 To solve inverse kinematics problems we have to create a function with the coordinates ($x_{0}$, $y_{0}$, $z_{0}$) of as parameters, which returns ($\theta_{1}$, $\theta_{2}$, $\theta_{3}$). A forward kinematics function uses ($\theta_{1}$, $\theta_{2}$, $\theta_{3}$) to return ($x_{0}$, $y_{0}$, $z_{0}$).
 \begin{figure}[H]
@@ -81,6 +115,7 @@ Such algebraic simplicity follows from our good choice regarding the frame of re
 & \Rightarrow J_{1} = (0, y_{J_{1}}, z_{J_{1}}) & \\
 & \theta_{1} = \tan^{-1}\left ( \frac{z_{J_{1}}}{y_{F_{1}} - y_{J_{1}}} \right ) & \\
 \end{flalign*}
+
 For the remaining angles $\theta_{2}$ and $\theta_{3}$, we should take advantage of the delta robot's symmetry. First, let's rotate the XY plane 120 degrees counterclockwise around the Z-axis, as it is shown below. 
 We've got a new reference frame X'Y'Z', and with this frame we can find the angle $\theta_{2}$ using the same algorithm that we used to find $\theta_{1}$. The only change is that we need to determine new coordinates $x^{'}_{0}$ and $y^{'}_{0}$ for the point $E_{0}$, which can be easily done using the corresponding rotation matrix. To find the angle $\theta_{3}$ we have to rotate the frame of reference clockwise, starting from the initial position.
 \begin{figure}[H]
@@ -317,6 +352,7 @@ Internal synchronous rectification control circuitry is provided to improve powe
 	\label{fig:pololu_A4988}
 \end{figure}
 This breakout board for Allegro's A4988 microstepping bipolar stepper motor driver features adjustable current limiting, over-current and over-temperature protection, and five different microstep resolutions (down to 1/16-step). It operates from 8 V to 35 V and can deliver up to approximately 1 A per phase without a heat sink or forced air flow (it is rated for 2 A per coil with sufficient additional cooling).
+
 The driver's key features:
 \begin{itemize}
 \item Simple step and direction control interface.
@@ -330,7 +366,7 @@ The driver's key features:
 \subsubsection{Drive a Stepper Motor with an Arduino and a A4988}
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=\maxwidth{8cm}, keepaspectratio]{Chapters/Fig/minimal_wiring_diagram_pololu_A4988.png}
+	\includegraphics[width=\maxwidth{10cm}, keepaspectratio]{Chapters/Fig/minimal_wiring_diagram_pololu_A4988.png}
 	\caption{Minimal wiring diagram for connecting a microcontroller to an A4988 stepper motor driver carrier (full-step mode)}
 	\label{fig:minimal_wiring_diagram_pololu_A4988}
 \end{figure}
@@ -385,6 +421,7 @@ HIGH         & HIGH         & HIGH         & Sixteenth Step      \\ \bottomrule
 \end{table}
 \paragraph{Current Limiting}
 To prevent damage to the driver chip, it uses circuitry to limit the maximum current that can be used. This is set via the adjustable resistor on the board, in co-operation with some of the other components, the sense resistors (S1 = 0.1Ohm and S2 = 0.1Ohm) and the resistor (R1 = 30kOhm).
+
 According to the A4998 datasheet, and substituting those values, gives:
 \begin{flalign*}
 & V_{REF} max = (TrimpotMaxR/(TrimpotMaxR+R_{1})) * V_{DD} &\\
