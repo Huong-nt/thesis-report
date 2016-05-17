@@ -170,13 +170,15 @@ where the coordinates of sphere centers ($x_{j}$, $y_{j}$, $z_{j}$) and the radi
 & J^{'}_{2}(\left [\frac{(f-e)}{2\sqrt{3}} + r_{f}\cos{\theta_{2}}  \right]\cos(30);\left [\frac{(f-e)}{2\sqrt{3}} + r_{f}\cos{\theta_{2}}  \right]\sin(30);-r_{f}\sin(\theta_{2})) & \\
 & J^{'}_{3}(\left [\frac{(f-e)}{2\sqrt{3}} + r_{f}\cos{\theta_{3}}  \right]\cos(30);\left [\frac{(f-e)}{2\sqrt{3}} + r_{f}\cos{\theta_{3}}  \right]\sin(30);-r_{f}\sin(\theta_{3})) & \\
 \end{flalign*}
+
 In the following equations I'll designate the coordinates of points $J_{1}$, $J_{2}$, $J_{3}$ as ($x_{1}$, $y_{1}$, $z_{1}$), ($x_{2}$, $y_{2}$, $z_{2}$) and ($x_{3}$, $y_{3}$, $z_{3}$). Please note that $x_{0} = 0$. Here are the equations of the three spheres:
+
 \begin{flalign*}
-& \begin{cases}
+\begin{cases}
  x^{2} + (y - y_{1})^{2} + (z - z_{1})^2 = r^{2}_{e} \\ 
  (x - x_{2})^{2} + (y - y_{2})^{2} + (z - z_{2})^2 = r^{2}_{e}\\ 
  (x - x_{3})^{2} + (y - y_{3})^{2} + (z - z_{3})^2 = r^{2}_{e}\\ 
-\end{cases} & \\
+\end{cases} 
 \end{flalign*}
 
 $\Rightarrow$ 
@@ -186,13 +188,14 @@ x^{2} + y^{2} + z^{2} - 2x_{2}x - 2y_{2}y - 2z_{2}z = r^2_{e} - x^{2}_{2} - y^{2
 x^{2} + y^{2} + z^{2} - 2x_{3}x - 2y_{3}y - 2z_{3}z = r^2_{e} - x^{2}_{3} - y^{2}_{3} - z^{2}_{3} \label{fk_3}
 \end{numcases}
 \begin{flalign*}
-& w_{i} = x^{2}_{i} + y^{2}_{i} + z^{2}_{i} & \\
-\end{flalign*}
+w_{i} = x^{2}_{i} + y^{2}_{i} + z^{2}_{i}
+\end{flalign*} 
 \begin{numcases}{ }
 x_{2}x + (y_{1} - y_{2})y + (z_{1} - z_{2})z = \frac{w_{1} - w_{2}}{2} \label{fk_4}\\ 
 x_{3}x + (y_{1} - y_{3})y + (z_{1} - z_{3})z = \frac{w_{1} - w_{3}}{2} \label{fk_5}\\ 
 (x_{2} - x_{3})x + (y_{2} - y_{3})y + (z_{2} - z_{3})z = \frac{w_{1} - w_{3}}{2} \label{fk_6} 
-\end{numcases}
+\end{numcases} 
+
 From (\ref{fk_4}) - (\ref{fk_5}):
 \begin{gather}
 x = a_{1} + b_{1} \label{fk_7}\\

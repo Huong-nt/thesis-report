@@ -1,4 +1,7 @@
 \chapter{Systems Design}
+
+In this chapter, I presented about the design of the Delta robot. Which includes three section. 1st section is the mechanical design, the next is electronic design. And the last is software design.
+
 \section{Mechanical Design}
 The mechanical design of the robot must be simple yet effective. Also, the parts used for the frame and the moving actuator arms needs to be quite cheap. The proportions of the actuator arms are not that crucial as the control system can take the slight proportion errors into account if it is programmed correctly. However, to make the robot as effective as possible, the actuator arm proportions should be designed so that all three of them are identical and that the mechanical design can be designed in a simple way. This is just to decrease the workload on the mechanical system design part of our project as I'm from an information technology engineering background. By default, the mechanical system design should not be my strongest aspect. Component wise I'm planning on doing the actuator arms so that they can be adjusted to get the robot to work as effective as possible. I'm planned to make our robot look lightweight and cheap but be sturdy and rigid enough for the actuator to be  accurate. The actual way to achieve our goals will be achieved through using Acrylic glass(\glspl{pmma}) sheets and parts, whose structural strength will be achieved through effective structural design.
 
@@ -72,7 +75,7 @@ And potentiometers were linked to the output shaft through gears.
 \section{Control circuit design}
 The electronic design is a rather simple and straight forward step. I'm using an Arduino MEGA 2560 board as our control board and Stepper Motor as motors, which is controlled by Pololu A4988 Driver. To get status of stepper motor, i using 10k ohm potentiometer linked to the output stepper motor's shaft through gears. In addition, LCD 16x2 is used to display the value of potentiometer in real time.
 
-\subsection{Control stepper motor circuit design}
+\subsection{Stepper motor controller circuit}
 Here are the pinouts from the Pololu A4988 driver and the corresponding pin connection on the Arduino MEGA 2560:
 \begin{table}[H]
 	\centering
@@ -100,11 +103,21 @@ Here are the pinouts from the Pololu A4988 driver and the corresponding pin conn
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=\maxwidth{15cm}, keepaspectratio]{Chapters/Fig/stepper_coltroler_circuit.png}
-	\caption{Control stepper motor circuit design}
+	\caption{Stepper motor controller circuit}
 	\label{fig:stepper_coltroler_circuit}
 \end{figure}
 
-\subsection{Control LCD Displays circuit design}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\maxwidth{15cm}, keepaspectratio]{Chapters/Fig/stepper_coltroler_circuit_schem.png}
+	\caption{Circuit diagram of stepper motor controller}
+	\label{fig:stepper_coltroler_circuit_schem}
+\end{figure}
+\subsubsection{Digital Filtering}
+
+%Trình bày phương pháp khử nhiễu ở chân STEP
+
+\subsection{LCD Displays circuit design}
 Here are the pinouts from the LCD and the corresponding pin connection on the Arduino MEGA 2560:
 \begin{table}[H]
 	\centering
@@ -148,8 +161,124 @@ Here are the pinouts from the LCD and the corresponding pin connection on the Ar
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=\maxwidth{15cm}, keepaspectratio]{Chapters/Fig/Deltarobot_LCD_16x2_schem.png}
-	\caption{Schematic of control LCD Displays circuit}
+	\caption{Schematic of LCD Displays controller}
 	\label{fig:Deltarobot_LCD_16x2_schem}
 \end{figure}
 \section{Software Design}
+
+\subsection{Use cases diagram}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\maxwidth{15cm}, keepaspectratio]{Chapters/Fig/use_case_diagram.png}
+	\caption{Use cases diagram}
+	\label{fig:use_case_diagram}
+\end{figure}
+
+\subsection{Class diagram}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\maxwidth{15cm}, keepaspectratio]{Chapters/Fig/class_diagram.png}
+	\caption{Class diagram}
+	\label{fig:class_diagram}
+\end{figure}
+
+\subsection{Sequence diagram}
+\subsubsection{Inverse kinematics}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\maxwidth{15cm}, keepaspectratio]{Chapters/Fig/inverse_kinematics_sequence_diagram.png}
+	\caption{Sequence diagram of inverse kinematics}
+	\label{fig:inverse_kinematics_sequence_diagram}
+\end{figure}
+
+\subsubsection{Forward kinematics}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\maxwidth{15cm}, keepaspectratio]{Chapters/Fig/forward_kinematics_sequence_diagram.png}
+	\caption{Sequence diagram of forward kinematics}
+	\label{fig:forward_kinematics_sequence_diagram}
+\end{figure}
+
+\subsection{Communications of CSharp and Arduino microcontroler via Serial Connection}
+The C\# class combined with the Arduino sketch allows you to plug an Arduino into a PC's USB port and then have its com port detected by the C\# application. Once the com port is known the C\# application can then send/receive messages from the Arduino.
+
+The concept is quite simple. The C\# application polls all the com ports and sends a query using a simple protocol (explained below). Once the Arduino receives the request it replies. The C\# application that notes the com port that caused the Arduino to reply and saves the name of the com port. The C\# application can then use this com port in subsequent communications.
+
+\subsubsection{Communications Protocol}
+To send a message I have to send 12 sets of bytes:
+
+\begin{itemize}
+		\item \textbf{Byte 0} is the start of command marker. This is always decimal 16 converted to byte (Convert.ToByte(16);)
+		\item \textbf{Byte 1} is the type of command: 
+		\begin{itemize}
+		\item [ ] 128 = Identify
+		\item [ ] 127 = Send data to pins
+		\item [ ] 129 = Get data from arduino
+		\item [ ] 130 = Set data to stepper motor
+		\item [ ] 131 = Calibrate
+		\end{itemize}
+		\item \textbf{Byte 2} direction of 1st stepper
+		\begin{itemize}
+		\item [ ] 0 = DOWN
+		\item [ ] 1 = UP
+		\end{itemize}
+		\item \textbf{Byte 3, Byte 4} is the number of steps of 1st stepper
+		\begin{itemize}
+		\item [ ] Byte 3 = numSteps / 256
+		\item [ ] Byte 4 = numSteps \% 256
+		\item [ ] (Number of steps between 0 to 65535)
+		\end{itemize}
+		\item \textbf{Byte 5} direction of 2nd stepper
+		\begin{itemize}
+		\item [ ] 0 = DOWN
+		\item [ ] 1 = UP
+		\end{itemize}
+		\item \textbf{Byte 6, Byte 7} is the number of steps of 2nd stepper
+		\begin{itemize}
+		\item [ ] Byte 6 = numSteps / 256
+		\item [ ] Byte 7 = numSteps \% 256
+		\item [ ] (Number of steps between 0 to 65535)
+		\end{itemize}
+		\item \textbf{Byte 8} direction of 3rd stepper
+		\begin{itemize}
+		\item [ ] 0 = DOWN
+		\item [ ] 1 = UP
+		\end{itemize}
+		\item \textbf{Byte 9, Byte 10} is the number of steps of 3rd stepper
+		\begin{itemize}
+		\item [ ] Byte 9 = numSteps / 256
+		\item [ ] Byte 10 = numSteps \% 256
+		\item [ ] (Number of steps between 0 to 65535)
+		\end{itemize}
+		\item \textbf{Byte 11} was used as an "end of message" marker but is redundant
+\end{itemize}
+
+\subsection{Control the Steppers}
+
+How to move Delta robot's arm in a straight line?
+
+The algorithm works by simple linear interpolation between two points given in 3-D space. It also adds in a linear acceleration and deceleration zone, near the endpoints.
+In a nutshell, the manipulator moves a small increment forward along the path. Through inverse kinematics, I then get a set of new arm angles. Given the current angles of the arm, I then calculate the number of stepper steps it will take for all the arms to reach the new angles. I then distribute the steps for all of the arms so that they all finish at the same time, providing a good enough approximation for straight line travel.
+
+Example: Robot's arm need to move from ($x_{0}$, $y_{0}$, $z_{0}$) to ($x_{1}$, $y_{1}$, $z_{1}$). Through inverse kinematics, I get a set of current and new arm angles are ($\theta1_{0}$, $\theta2_{0}$, $\theta3_{0}$) and ($\theta1_{1}$, $\theta2_{1}$, $\theta3_{1}$).
+Speed and acceleration will be calculated by the math as follows:
+\begin{flalign*}
+& d_{\theta1} = \theta1_{1} - \theta1_{0} & \\
+& d_{\theta2} = \theta2_{1} - \theta2_{0} & \\
+& d_{\theta3} = \theta3_{1} - \theta3_{0} & \\
+\end{flalign*}
+$n_{1}$, $n_{2}$, $n_{3}$ in turn are the number of steps of stepper motor
+\begin{flalign*}
+& n_{1} = d_{\theta1} / STEP\_SIZE &\\
+& n_{2} = d_{\theta2} / STEP\_SIZE &\\
+& n_{3} = d_{\theta3} / STEP\_SIZE &\\
+\end{flalign*}
+%(Còn tiếp: tính nốt speed và acceleration)
+$n_{MAX}$ is the largest step that stepper must execute. \\
+$speed_{i} = n_{i} * MAX\_SPEED / n_{MAX}$; \\
+$acceleration_{i} = n_{i} * MAX\_ACCELERATION / n_{MAX}$; \\
+
+
+
+
 
