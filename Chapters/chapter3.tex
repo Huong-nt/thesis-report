@@ -1,8 +1,11 @@
 \chapter{Systems Design}
 
-In this chapter, I presented about the design of the Delta robot. Which includes three section. 1st section is the mechanical design, the next is electronic design. And the last is software design.
+In this chapter, I presented about the solution for design of the Delta robot. 
+Mechanical design, as well as advantage and disadvantage of my design, are described in section 1. Subsequently, Section 2 presented electronic design. In the final section the software design and solution to control the robot are presented to conclude this chapter.
+Subsequently
 
 \section{Mechanical Design}
+
 The mechanical design of the robot must be simple yet effective. Also, the parts used for the frame and the moving actuator arms needs to be quite cheap. The proportions of the actuator arms are not that crucial as the control system can take the slight proportion errors into account if it is programmed correctly. However, to make the robot as effective as possible, the actuator arm proportions should be designed so that all three of them are identical and that the mechanical design can be designed in a simple way. This is just to decrease the workload on the mechanical system design part of our project as I'm from an information technology engineering background. By default, the mechanical system design should not be my strongest aspect. Component wise I'm planning on doing the actuator arms so that they can be adjusted to get the robot to work as effective as possible. I'm planned to make our robot look lightweight and cheap but be sturdy and rigid enough for the actuator to be  accurate. The actual way to achieve our goals will be achieved through using Acrylic glass(\glspl{pmma}) sheets and parts, whose structural strength will be achieved through effective structural design.
 
 The robot's goal is to operate in the smart-phone screen size (4" x 6"). With this in mind, I guessed the length of the lower arms, simulating the arms in GeoGebra\cite{GeoGebra_thesis}(the dynamic mathematics software for education) and then modeling them in SolidWorks. The only guideline I had was to keep the upper arms shorter than the lower arms for the best range and keep the two rods of each lower arm as far apart as possible for stability.
@@ -73,9 +76,11 @@ And potentiometers were linked to the output shaft through gears.
 
 
 \section{Control circuit design}
+
 The electronic design is a rather simple and straight forward step. I'm using an Arduino MEGA 2560 board as our control board and Stepper Motor as motors, which is controlled by Pololu A4988 Driver. To get status of stepper motor, i using 10k ohm potentiometer linked to the output stepper motor's shaft through gears. In addition, LCD 16x2 is used to display the value of potentiometer in real time.
 
 \subsection{Stepper motor controller circuit}
+
 Here are the pinouts from the Pololu A4988 driver and the corresponding pin connection on the Arduino MEGA 2560:
 \begin{table}[H]
 	\centering
@@ -113,11 +118,13 @@ Here are the pinouts from the Pololu A4988 driver and the corresponding pin conn
 	\caption{Circuit diagram of stepper motor controller}
 	\label{fig:stepper_coltroler_circuit_schem}
 \end{figure}
+
 \subsubsection{Digital Filtering}
 
 %Trình bày phương pháp khử nhiễu ở chân STEP
 
 \subsection{LCD Displays circuit design}
+
 Here are the pinouts from the LCD and the corresponding pin connection on the Arduino MEGA 2560:
 \begin{table}[H]
 	\centering
@@ -167,14 +174,29 @@ Here are the pinouts from the LCD and the corresponding pin connection on the Ar
 \section{Software Design}
 
 \subsection{Use cases diagram}
+\subsubsection{Inverse kinematics}
+\textbf{Actor:} User \\
+\textbf{Summary:} User set coordinate of Delta robot's arms. C\# server necessary  to determine corresponding angles of three arms(joint angles)  and sent to Arduino microcontroller through USB connection. Arduino microcontroller drives three stepper motors to the received angle.
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=\maxwidth{15cm}, keepaspectratio]{Chapters/Fig/use_case_diagram.png}
-	\caption{Use cases diagram}
-	\label{fig:use_case_diagram}
+	\includegraphics[width=\maxwidth{15cm}, keepaspectratio]{Chapters/Fig/usecase_inverse_kinematics.png}
+	\caption{Inverse kinematics use cases diagram}
+	\label{fig:usecase_inverse_kinematics}
+\end{figure}
+
+\subsubsection{Forward kinematics}
+\textbf{Actor:} User \\
+\textbf{Summary:} determine the possition of the end effector when the joint angles are known  
+(i.e to make some corrections regarding its current possition)
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\maxwidth{15cm}, keepaspectratio]{Chapters/Fig/usecase_forward_kinematics.png}
+	\caption{Forward kinematics use cases diagram}
+	\label{fig:usecase_forward_kinematics}
 \end{figure}
 
 \subsection{Class diagram}
+
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=\maxwidth{15cm}, keepaspectratio]{Chapters/Fig/class_diagram.png}
@@ -200,11 +222,13 @@ Here are the pinouts from the LCD and the corresponding pin connection on the Ar
 \end{figure}
 
 \subsection{Communications of CSharp and Arduino microcontroler via Serial Connection}
+
 The C\# class combined with the Arduino sketch allows you to plug an Arduino into a PC's USB port and then have its com port detected by the C\# application. Once the com port is known the C\# application can then send/receive messages from the Arduino.
 
 The concept is quite simple. The C\# application polls all the com ports and sends a query using a simple protocol (explained below). Once the Arduino receives the request it replies. The C\# application that notes the com port that caused the Arduino to reply and saves the name of the com port. The C\# application can then use this com port in subsequent communications.
 
 \subsubsection{Communications Protocol}
+
 To send a message I have to send 12 sets of bytes:
 
 \begin{itemize}

@@ -3,7 +3,13 @@
 \makeatother
 
 \chapter{Background}
+
+In this chapter, I presented the background knowledge to build a Delta Robot. The advantages and disadvantages of a robot with a parallel mechanisms are described. A review of different parallel mechanisms and their industrial application is presented. 
+In section 2.3, I described about the kinematics solution of the Delta robot, which is the most important issue to design Delta robot.
+The chapter closes with two section introduction to the Arduino and A4988.
+
 \section{Robotics}
+
 The word robot was introduced in 1921 by the Czech playwright Karel Capek in his satirical play R. U. R. (Rossum’s Universal Robots),where he depicted robots as machines which resembled people but worked tirelessly The structure of a robot is usually mostly mechanical and can be called a kinematic chain. The system structures of a robot various depending on the task it will perform. A typically industrial robot is the serial robot which is built up by an open kinematic chain. This chain can be described as links connected to each other with revolute joints driven by actuators. This type of structure is often seen in the car industry.
 The history of industrial automation is characterized by periods of rapid change in popular methods. Either as a cause or, perhaps, an effect, such periods of change in automation techniques seem closely tied to world economics. Along with computer aided design (CAD) systems, and computer aided manufacturing (CAM) systems the industrial robot became identifiable as a unique device, in the 1960’s (2). The robots are growing in complexity and their use in industry is becoming more widespread. This leads to new structures with different advantages and disadvantages\cite{intro_robotic_thesis}.
 
@@ -35,9 +41,11 @@ Calibration                     & Relatively simple     & Complicated           
 Workspace/robot size ratio      & High                  & Low               		\\ \hline
 \end{tabular}
 \end{table}
-% Với mục đích phục vụ cho hệ thống kiểm thử, tôi cần 1 cánh tay robot có tốc độ cao, hoạt động ổn định và chính xác trong không gian nhỏ. Từ những ưu nhược điểm đã phân tích trong bảng trên, tôi quyết định chọn Delta robot cho hệ thống kiểm thử của mình.
+
+Inconclusion, with the purpose of serving for the Automated Mobile App Testing System, I need a robotic arm have high speed, stable and accurate operation in small space. From the pros cons were analyzed above, I decided to choose Parallel robot(Delta robot) for my testing system.
 
 \section{Delta Robot}
+
 It is in the early 80's when Reymond Clavel (professor at EPFL - École Polytechnique Fédérale de Lausanne) comes up with the brilliant idea of using parallelograms to build a parallel robot with three translational and one rotational degree of freedom. Contrary to opinions published elsewhere, his inspiration was truly original and does not come from a parallel mechanism patented by Willard L. Pollard in 1942, which at that time was not known to Professor Clavel. The latter calls his creation the Delta robot, without suspecting that at the turn of the century, it will establish itself as one of the most successful parallel robot designs, with several hundred active robots worldwide. In 1999, Dr. Clavel is presented with the Golden Robot Award, sponsored by ABB Flexible Automation, for his innovative work on the Delta parallel robot\cite{intro_deltarobot_thesis}. 
 \subsection{The Design}
 \begin{figure}[H]
@@ -46,14 +54,17 @@ It is in the early 80's when Reymond Clavel (professor at EPFL - École Polytech
 	\caption{Original technical drawing from U.S Patent n.4,976,582\cite{US_patent_deltarobot_thesis}}
 	\label{fig:deltarobot_first_design}
 \end{figure}
+
 The basic idea behind the Delta parallel robot design is the use of parallelograms. A parallelogram allows an output link to remain at a fixed orientation with respect to an input link. The use of three such parallelograms restrain completely the orientation of the mobile platform which remains only with three purely translational degrees of freedom. The input links of the three parallelograms are mounted on rotating levers via revolute joints. The revolute joints of the rotating levers are actuated in two different ways: with rotational (DC or AC servo) motors or with linear actuators. Finally, a fourth leg is used to transmit rotary motion from the base to an end-effector mounted on the mobile platform\cite{intro_deltarobot_thesis}.
 
 The use of base-mounted actuators and low-mass links allows the mobile platform to achieve accelerations of up to 50 G in experimental environments and 12 G in industrial applications. This makes the Delta robot a perfect candidate for pick and place operations of light objects (from 10 gr to 1 kg). Ideally, its workspace is the intersection of three right circular tori. The Delta robots available on the market operate typically in a cylindrical workspace which is 1 m in diameter and 0.2 m high.
 
 \subsection{Application}
+
 Industries that take advantage of the Delta robot’s high speed are the packaging, medical and pharmaceutical industries. Other possible applications include assembly tasks or operation in a clean room for electronic components. More recently, Delta robot is the low-cost solution to build 3D printer for about a few hundred dollars from RepRap project\cite{reprap_thesis}. The Delta robot’s structure can also be used to build a Automated System Testing for mobile phone.
 
 \section{Delta robot kinematics}
+
 To build delta robot we needed to solve two problems. Firstly, given the desired position of the end effector (for example, to catch a pancake in the point with coordinates x,y,z), it is necessary to determine the corresponding angles of each of three arms (joint angles) in order to set the motors (and, thereby, the end effector) in proper position for grasping. This process is known as inverse kinematics. 
 
 And, secondly, if the joint angles are known (for example, by reading the values of the motor encoders), it is necessary to determine the position of the end effector (i.e. to make some corrections regarding its current position). This is known as a forward kinematics problem. 
@@ -74,6 +85,7 @@ To solve inverse kinematics problems we have to create a function with the coord
 	\label{fig:inverse_kinematics}
 \end{figure}
 \subsubsection{Some key parameters}
+
 First, let's determine some key parameters of our robot's geometry. Let's designate the side of the fixed triangle as f, the side of the end effector triangle as e, the length of the upper joint as $r_{f}$,  and the length of the parallelogram joint as $r_{e}$. These are physical parameters that are determined by the robot. The reference frame will be chosen with the origin at the fixed triangle's centre of symmetry, as shown below, so that the z-coordinate of the end effector will always be negative.
 \begin{figure}[H]
 	\centering
@@ -133,6 +145,7 @@ We've got a new reference frame X'Y'Z', and with this frame we can find the angl
 	\label{fig:forward_kinematics}
 \end{figure}
 \subsubsection{Some key parameters}
+
 Now that the three joint angles ($\theta_{1}$, $\theta_{2}$, $\theta_{3}$) are known, and we need to find the coordinates ($x_{0}$, $y_{0}$, $z_{0}$) of the end effector point $E_{0}$.
 Since we know the angles, we can easily find the coordinates of points $J_{1}$, $J_{2}$ and $J_{3}$ (see fig. below).
 Joints $\overline{J_{1}E_{1}}$, $\overline{J_{2}E_{2}}$ and $\overline{J_{3}E_{3}}$ can freely rotate around points $J_{1}$, $J_{2}$ and $J_{3}$ respectively, forming three spheres with radius $r_{e}$.
@@ -151,6 +164,7 @@ intersect in one point: $E_{0}$, as shown in the figure below:
 	\label{fig:intersection_of_three_spheres}
 \end{figure}
 \subsubsection{Equations}
+
 So, to find the coordinates ($x_{0}$, $y_{0}$, $z_{0}$) of the point $E_{0}$, we need to solve a set of three equations like
 $$(x - x_{j})^{2} + (y - y_{j})^{2} + (z - z_{j})^{2} = r^{2}_{e}$$
 where the coordinates of sphere centers ($x_{j}$, $y_{j}$, $z_{j}$) and the radius $r_{e}$ are known. First, let's find the coordinates of points $J^{'}_{1}$, $J^{'}_{2}$, $J^{'}_{3}$:
@@ -166,9 +180,9 @@ where the coordinates of sphere centers ($x_{j}$, $y_{j}$, $z_{j}$) and the radi
 & F_{1}J_{1} = r_{f}\cos(\theta_{1}) & \\
 & F_{2}J_{2} = r_{f}\cos(\theta_{2}) & \\
 & F_{3}J_{3} = r_{f}\cos(\theta_{3}) & \\
-& J^{'}_{1}(0;\frac{-(f-e)}{2\sqrt{3}} - r_{f}\cos{\theta_{1}};-r_{f}\sin(\theta_{1})) & \\
-& J^{'}_{2}(\left [\frac{(f-e)}{2\sqrt{3}} + r_{f}\cos{\theta_{2}}  \right]\cos(30);\left [\frac{(f-e)}{2\sqrt{3}} + r_{f}\cos{\theta_{2}}  \right]\sin(30);-r_{f}\sin(\theta_{2})) & \\
-& J^{'}_{3}(\left [\frac{(f-e)}{2\sqrt{3}} + r_{f}\cos{\theta_{3}}  \right]\cos(30);\left [\frac{(f-e)}{2\sqrt{3}} + r_{f}\cos{\theta_{3}}  \right]\sin(30);-r_{f}\sin(\theta_{3})) & \\
+& J^{'}_{1}(0; \frac{-(f-e)}{2\sqrt{3}} - r_{f}\cos{\theta_{1}}; -r_{f}\sin(\theta_{1})) & \\
+& J^{'}_{2}(\left [\frac{(f-e)}{2\sqrt{3}} + r_{f}\cos{\theta_{2}}  \right]\cos(30); \left [\frac{(f-e)}{2\sqrt{3}} + r_{f}\cos{\theta_{2}}  \right]\sin(30); -r_{f}\sin(\theta_{2})) & \\
+& J^{'}_{3}(\left [\frac{(f-e)}{2\sqrt{3}} + r_{f}\cos{\theta_{3}}  \right]\cos(30); \left [\frac{(f-e)}{2\sqrt{3}} + r_{f}\cos{\theta_{3}}  \right]\sin(30); -r_{f}\sin(\theta_{3})) & \\
 \end{flalign*}
 
 In the following equations I'll designate the coordinates of points $J_{1}$, $J_{2}$, $J_{3}$ as ($x_{1}$, $y_{1}$, $z_{1}$), ($x_{2}$, $y_{2}$, $z_{2}$) and ($x_{3}$, $y_{3}$, $z_{3}$). Please note that $x_{0} = 0$. Here are the equations of the three spheres:
@@ -216,6 +230,7 @@ And finally, we need to solve this quadric equation and find $z_{0}$(we should c
 \section{Arduino Mega 2560} 
 % \cite{arduinomega_thesis}
 \subsection{Overview}
+
 The Mega 2560 is a microcontroller board based on the ATmega2560. The main structure of the Arduino Mega 2560 includes the following sections:
 \begin{itemize}
 		\item \textbf{USB connection}: This is the communication port to upload code from the PC to the microcontroller. It is also a serial interface for data transfer between the microcontroller and the PC.
@@ -277,6 +292,7 @@ The ATmega2560 has 256 KB of flash memory for storing code (of which 8 KB is use
 \newpage
 \section{Stepper Motor and Driver A4988}
 \subsection{Stepper Motor}
+
 A stepper motor is an electromechanical device which converts electrical pulses into discrete mechanical movements. The shaft or spindle of a stepper motor rotates in discrete step increments when electrical command pulses are applied to it in the proper sequence. The motors rotation has several direct relationships to these applied input pulses. The sequence of the applied pulses is directly related to the direction of motor shafts rotation. The speed of the motor shafts rotation is directly related to the frequency of the input pulses and the length of rotation is directly related to the number of input pulses applied.
 \subsubsection{Stepper Motor Advantages and Disadvantages}
 \begin{itemize}
@@ -341,6 +357,7 @@ A NEMA 17 stepper motor is a stepper motor with a 1.7 x 1.7 inch (43.2 x 43.2 mm
 \end{figure}
 
 \subsection{Driver A4988}
+
 The Allegro's A4988 is a complete microstepping motor driver with built-in translator for easy operation. It is designed to operate bipolar stepper motors in full-, half-, quarter-, eighth-, and sixteenth-step modes, with an output drive capacity of up to 35 V and $\pm$2 A. The A4988 includes a fixed off-time current regulator which has the ability to operate in Slow or Mixed decay modes\cite{A4988_allegro_thesis}.
 
 The translator is the key to the easy implementation of the A4988. Simply inputting one pulse on the STEP input drives the motor one microstep. There are no phase sequence tables, high frequency control lines,or complex interfaces to program. The A4988 interface is an ideal fit for applications where a complex microprocessor is unavailable or is overburdened. During stepping operation, the chopping control in the A4988 automatically selects the current decay mode, Slow or Mixed. In Mixed decay mode, the device is set initially to a fast decay for a proportion of the fixed off-time, then to a slow decay for the remainder of the off-time. Mixed decay current control results in reduced audible motor noise, increased step accuracy, and reduced power dissipation\cite{A4988_allegro_thesis}.
