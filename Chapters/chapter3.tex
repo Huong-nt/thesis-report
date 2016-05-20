@@ -1,14 +1,13 @@
 \chapter{Systems Design}
 
-In this chapter, I presented about the solution for design of the Delta robot. 
-Mechanical design, as well as advantage and disadvantage of my design, are described in section 1. Subsequently, Section 2 presented electronic design. In the final section the software design and solution to control the robot are presented to conclude this chapter.
-Subsequently
+In this chapter, I present the solution for design the Delta robot. 
+Mechanical design, as well as it's advantage and disadvantage are described in section 1. Subsequently, Section 2 presents electronic design and solution to anti-interference. In the final section the software design and solution to control the robot are elaborated to conclude this chapter.
 
 \section{Mechanical Design}
 
-The mechanical design of the robot must be simple yet effective. Also, the parts used for the frame and the moving actuator arms needs to be quite cheap. The proportions of the actuator arms are not that crucial as the control system can take the slight proportion errors into account if it is programmed correctly. However, to make the robot as effective as possible, the actuator arm proportions should be designed so that all three of them are identical and that the mechanical design can be designed in a simple way. This is just to decrease the workload on the mechanical system design part of our project as I'm from an information technology engineering background. By default, the mechanical system design should not be my strongest aspect. Component wise I'm planning on doing the actuator arms so that they can be adjusted to get the robot to work as effective as possible. I'm planned to make our robot look lightweight and cheap but be sturdy and rigid enough for the actuator to be  accurate. The actual way to achieve our goals will be achieved through using Acrylic glass(\glspl{pmma}) sheets and parts, whose structural strength will be achieved through effective structural design.
+The mechanical design of the robot must be simple yet effective. Also, the parts used for the frame and the moving actuator arms needs to be quite cheap. The proportions of the actuator arms are not that crucial as the control system can take the slight proportion errors into account if it is programmed correctly. However, to make the robot as effective as possible, the actuator arm proportions should be designed so that all three of them are identical and that the mechanical design can be designed in a simple way. By default, the mechanical system design should not be my strongest aspect. I'm planning on doing the actuator arms so that they can be adjusted to get the robot to work as effective as possible. The goal is to make our robot lightweight and cheap but be sturdy and rigid enough for the actuator to be  accurate. The actual way to achieve our goals will be achieved through using Acrylic glass(\glspl{pmma}) sheets and parts, whose structural strength will be achieved through effective structural design.
 
-The robot's goal is to operate in the smart-phone screen size (4" x 6"). With this in mind, I guessed the length of the lower arms, simulating the arms in GeoGebra\cite{GeoGebra_thesis}(the dynamic mathematics software for education) and then modeling them in SolidWorks. The only guideline I had was to keep the upper arms shorter than the lower arms for the best range and keep the two rods of each lower arm as far apart as possible for stability.
+The target screen size that the robot will operation on is $(4" \ast 6")$. With this in mind, the length of the lower arms can be obtained by simulating the arms in GeoGebra\cite{GeoGebra_thesis}(the dynamic mathematics software for education) and then modeling them in SolidWorks. The only guideline I had was to keep the upper arms shorter than the lower arms for the best range and keep the two rods of each lower arm as far apart as possible for stability.
 \begin{figure}[H]	
 	\centering
 	\includegraphics[width=\maxwidth{15cm}, keepaspectratio]{Chapters/Fig/3D_delta_robot_simulator.png}
@@ -16,7 +15,7 @@ The robot's goal is to operate in the smart-phone screen size (4" x 6"). With th
 	\label{fig:3D_delta_robot_simulator}
 \end{figure}
 
-I simulate Delta robot by GeoGebra and find out the parameters needed, show in Table.\ref{tab:arduinomega2560_technical_specs}. I head out and model it all out in SolidWorks.
+I simulate Delta robot by GeoGebra and find out the parameters needed, show in Table.\ref{tab:arduinomega2560_technical_specs}. After that, I design the robot's model on SolidWorks.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=\maxwidth{15cm}, keepaspectratio]{Chapters/Fig/key_parameters.png}
@@ -56,10 +55,10 @@ I simulate Delta robot by GeoGebra and find out the parameters needed, show in T
 	\label{fig:robot_top_view}
 \end{figure}
 
-I made the upper-to-lower arm length ratio much smaller, to get the precision over a larger range on the XY plane, at the expense of Z traversal. If the upper arms were quite long, relative to the lower arm. This made for the really great range in the Z dimension. But for a phone-testing robot, this is useless. Since the arms were so long, small movements in the motors created large movements in the manipulator. I got poor results in the accuracy of the action. For the best range of motion for touching, when the touch-pen is centered on the phone, the upper arms should be near horizontal, relative to the robot.
+I made the upper-to-lower arm length ratio much smaller in order to get the precision over a larger range on the XY plane, at the expense of Z traversal. If the upper arms were quite long, inrelation with the lower arm, It will move really great range in the Z dimension. But for a phone-testing robot, this is useless. Since the arms were so long, small movements in the motors created large movements in the manipulator. I got poor results in the accuracy of the action. For the best range of motion for touching, when the touch-pen is centered on the phone, the upper arms should stay near in horizontal direction, relative to the robot.
 And potentiometers were linked to the output shaft through gears.
 
-\subsubsection{Parts list of Delta robot:}
+\subsubsection{List of parts of Delta robot:}
 \begin{itemize}
 		\item Custom mechanical parts cut from 3mm thick Acrylic glass(\glspl{pmma})
 		\item Three Gear Ratio 5:1 Nema 17 Stepper Motor 0.4A 12V
@@ -77,7 +76,7 @@ And potentiometers were linked to the output shaft through gears.
 
 \section{Control circuit design}
 
-The electronic design is a rather simple and straight forward step. I'm using an Arduino MEGA 2560 board as our control board and Stepper Motor as motors, which is controlled by Pololu A4988 Driver. To get status of stepper motor, i using 10k ohm potentiometer linked to the output stepper motor's shaft through gears. In addition, LCD 16x2 is used to display the value of potentiometer in real time.
+The electronic design is a rather simple and straight forward step. I'm using an Arduino MEGA 2560 board as our control board and Stepper Motor as motors, which is controlled by Pololu A4988 Driver. To get status of stepper motor, I using 10k ohm potentiometer linked to the output stepper motor's shaft through gears. In addition, LCD 16x2 is used to display the value of potentiometer in real time.
 
 \subsection{Stepper motor controller circuit}
 
@@ -223,9 +222,9 @@ Here are the pinouts from the LCD and the corresponding pin connection on the Ar
 
 \subsection{Communications of CSharp and Arduino microcontroler via Serial Connection}
 
-The C\# class combined with the Arduino sketch allows you to plug an Arduino into a PC's USB port and then have its com port detected by the C\# application. Once the com port is known the C\# application can then send/receive messages from the Arduino.
+The C\# class combined with the Arduino sketch allows you to plug an Arduino into a PC's USB port and then have its COM port detected by the C\# application. Once the COM port is known the C\# application can then send/receive messages from the Arduino.
 
-The concept is quite simple. The C\# application polls all the com ports and sends a query using a simple protocol (explained below). Once the Arduino receives the request it replies. The C\# application that notes the com port that caused the Arduino to reply and saves the name of the com port. The C\# application can then use this com port in subsequent communications.
+The concept is quite simple. The C\# application polls all the COM ports and sends a query using a simple protocol (explained below). Once the Arduino receives the request it replies. The C\# application that notes the COM port that caused the Arduino to reply and saves the name of the COM port. The C\# application can then use this COM port in subsequent communications.
 
 \subsubsection{Communications Protocol}
 
@@ -282,9 +281,9 @@ To send a message I have to send 12 sets of bytes:
 How to move Delta robot's arm in a straight line?
 
 The algorithm works by simple linear interpolation between two points given in 3-D space. It also adds in a linear acceleration and deceleration zone, near the endpoints.
-In a nutshell, the manipulator moves a small increment forward along the path. Through inverse kinematics, I then get a set of new arm angles. Given the current angles of the arm, I then calculate the number of stepper steps it will take for all the arms to reach the new angles. I then distribute the steps for all of the arms so that they all finish at the same time, providing a good enough approximation for straight line travel.
+In a nutshell, the manipulator moves a small increment forward along the path. Through inverse kinematics, I obtain a set of new arm angles. Given the current angles of the arm, I then calculate the number of stepper steps it will take for all the arms to reach the new angles. The steps then are distributed for all of the arms so that they all finish at the same time, providing a good enough approximation for straight line travel.
 
-Example: Robot's arm need to move from ($x_{0}$, $y_{0}$, $z_{0}$) to ($x_{1}$, $y_{1}$, $z_{1}$). Through inverse kinematics, I get a set of current and new arm angles are ($\theta1_{0}$, $\theta2_{0}$, $\theta3_{0}$) and ($\theta1_{1}$, $\theta2_{1}$, $\theta3_{1}$).
+Example: Robot's arm needs to move from ($x_{0}$, $y_{0}$, $z_{0}$) to ($x_{1}$, $y_{1}$, $z_{1}$). Through inverse kinematics, I get a set of current and new arm angles are ($\theta1_{0}$, $\theta2_{0}$, $\theta3_{0}$) and ($\theta1_{1}$, $\theta2_{1}$, $\theta3_{1}$).
 Speed and acceleration will be calculated by the math as follows:
 \begin{flalign*}
 & d_{\theta1} = \theta1_{1} - \theta1_{0} & \\
