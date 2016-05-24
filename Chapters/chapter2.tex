@@ -4,13 +4,23 @@
 
 \chapter{Background}
 
-In this chapter, I presented the background knowledge to build a Delta Robot. The advantages and disadvantages of a robot with a parallel mechanisms are described. A review of different parallel mechanisms and their industrial application is presented. 
+In this chapter, I presented the background knowledge to build a Delta Robot. The reason that we choose the parallel robot, as well as the advantages and disadvantages of a robot with a parallel mechanisms are described. A review of different parallel mechanisms and their industrial application is presented. 
 In section 2.3, I described about the kinematics solution of the Delta robot, which is the most important issue to design Delta robot.
 The chapter closes with two section introduction to the Arduino and A4988.
 
-\section{Robotics}
+\section{Robotic arm and choose the type of robotic arm.}
 
 The word robot was introduced in 1921 by the Czech playwright Karel Capek in his satirical play R. U. R. (Rossum’s Universal Robots),where he depicted robots as machines which resembled people but worked tirelessly The structure of a robot is usually mostly mechanical and can be called a kinematic chain. The system structures of a robot varies depending on the task it will perform. A typically industrial robot is the serial robot which is built up by an open kinematic chain. This chain can be described as links connected to each other with revolute joints driven by actuators. This type of structure is often seen in the car industry.
+
+\begin{figure}[H]
+    \centering
+    \subfloat[Serial robotic arm]{{\includegraphics[width=7cm]{Chapters/Fig/serial_robot_demo.jpg} }}%
+    \qquad
+    \subfloat[Parallel robotic arm]{{\includegraphics[width=6cm]{Chapters/Fig/delta_robot_demo.jpg} }}%
+    \caption{Two type of robotic arm}%
+    \label{fig:type_of_robotic_arm}%
+\end{figure}
+
 The history of industrial automation is characterized by periods of rapid change in popular methods. Either as a cause or, perhaps, an effect, such periods of change in automation techniques seem closely tied to world economics. Along with computer aided design (CAD) systems, and computer aided manufacturing (CAM) systems the industrial robot became identifiable as a unique device, in the 1960’s (2). The robots are growing in complexity and their use in industry is becoming more widespread. This leads to new structures with different advantages and disadvantages\cite{intro_robotic_thesis}.
 
 Parallel structures as the Delta robot possess a number of advantages when compared with serial manipulators. They offer generally a much higher rigidity and smaller mobile mass than their serial counterparts. Thus, they can move a much heavier payload relative to the components of body mass compared to a serial manipulator. The system structure of a Delta robot also makes it more stiff perpendicular to the traveling plate (e.g. resistive against vibration perpendicular to the traveling plate). The major drawback of the parallel robots is their limited range of motion compared to a serial robot, but with a system structure as the Delta robot, this limitation has partially been resolved.
@@ -65,15 +75,19 @@ Industries that take advantage of the Delta robot’s high speed are the packagi
 
 \section{Delta robot kinematics}
 
+
+
 To build delta robot we need to solve two problems. Firstly, given the desired position of the end effector (for example, to catch a pancake in the point with coordinates $x$,$y$,$z$), it is necessary to determine the corresponding angles of each of three arms (joint angles) in order to set the motors (and, thereby, the end effector) in proper position for grasping. This process is known as inverse kinematics. 
 
 And, secondly, if the joint angles are known (for example, by reading the values of the motor encoders), it is necessary to determine the position of the end effector (i.e. to make some corrections regarding its current position). This is known as a forward kinematics problem. 
+
+Solution for both problems bases on the article of Prof. Paul Zsombor-Murray\cite{geometric_kinematic_analysis_thesis}. 
 
 To be more formal, let's look at the kinematic scheme of the delta robot. The platforms are two equilateral triangles: the fixed triangle with the motors is green, and the movable triangle with the end effector is pink. The joint angles are $\theta_{1}$, $\theta_{2}$ and $\theta_{3}$, and the point is the end effector’s position with coordinates ($x_{0}$, $y_{0}$, $z_{0}$).
 To solve inverse kinematics problems we have to create a function with the coordinates ($x_{0}$, $y_{0}$, $z_{0}$) of as parameters, which returns ($\theta_{1}$, $\theta_{2}$, $\theta_{3}$). A forward kinematics function uses ($\theta_{1}$, $\theta_{2}$, $\theta_{3}$) to return ($x_{0}$, $y_{0}$, $z_{0}$).
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=\maxwidth{12cm}, keepaspectratio]{Chapters/Fig/kinematic_scheme.png}
+	\includegraphics[width=\maxwidth{11cm}, keepaspectratio]{Chapters/Fig/kinematic_scheme.png}
 	\caption{Kinematic scheme of the delta robot}
 	\label{fig:kinematic_scheme}
 \end{figure}
@@ -89,14 +103,14 @@ To solve inverse kinematics problems we have to create a function with the coord
 First, let's determine some key parameters of our robot's geometry. Let's designate the side of the fixed triangle as $f$, the side of the end effector triangle as $e$, the length of the upper joint as $r_{f}$,  and the length of the parallelogram joint as $r_{e}$. These are physical parameters that are determined by the robot. The reference frame will be chosen with the origin at the fixed triangle's centre of symmetry, as shown below, so that the z-coordinate of the end effector will always be negative.
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=\maxwidth{12cm}, keepaspectratio]{Chapters/Fig/key_parameters.png}
+	\includegraphics[width=\maxwidth{11cm}, keepaspectratio]{Chapters/Fig/key_parameters.png}
 	\caption{Some key parameters of our robot's geometry}
 	\label{fig:key_parameters}
 \end{figure}
 Because of the robot's design, joint $\overline{F_{1}J_{1}}$ can only rotate in the YZ plane (see fig. below), forming a circle centered in point $F_{1}$ with radius $r_{f}$. Unlike $F_{1}$, $J_{1}$ and $E_{1}$ are so-called universal joints, which means that $\overline{E_{1}J_{1}}$ can rotate freely relatively to $E_{1}$, forming a sphere centered in point $E_{1}$ with radius $r_{e}$.
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=\maxwidth{12cm}, keepaspectratio]{Chapters/Fig/find_point_J1.png}
+	\includegraphics[width=\maxwidth{11cm}, keepaspectratio]{Chapters/Fig/find_point_J1.png}
 	\caption{Find point $J_{1}$}
 	\label{fig:find_point_J1}
 \end{figure}
@@ -105,7 +119,7 @@ Such algebraic simplicity follows from our good choice regarding the frame of re
 \subsubsection{Equations}
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=\maxwidth{13cm}, keepaspectratio]{Chapters/Fig/find_theta1.png}
+	\includegraphics[width=\maxwidth{10cm}, keepaspectratio]{Chapters/Fig/find_theta1.png}
 	\caption{Find $\theta_{1}$}
 	\label{fig:find_theta1}
 \end{figure}
@@ -132,7 +146,7 @@ For the remaining angles $\theta_{2}$ and $\theta_{3}$, we should take advantage
 We've got a new reference frame X'Y'Z', and with this frame we can find the angle $\theta_{2}$ using the same algorithm that we used to find $\theta_{1}$. The only change is that we need to determine new coordinates $x^{'}_{0}$ and $y^{'}_{0}$ for the point $E_{0}$, which can be easily done using the corresponding rotation matrix. To find the angle $\theta_{3}$ we have to rotate the frame of reference clockwise, starting from the initial position.
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=\maxwidth{13cm}, keepaspectratio]{Chapters/Fig/find_theta2_and_theta3.png}
+	\includegraphics[width=\maxwidth{10cm}, keepaspectratio]{Chapters/Fig/find_theta2_and_theta3.png}
 	\caption{Find $\theta_{2}$ and $\theta_{3}$}
 	\label{fig:find_theta2_and_theta3}
 \end{figure}
@@ -151,7 +165,7 @@ Since we know the angles, we can easily find the coordinates of points $J_{1}$, 
 Joints $\overline{J_{1}E_{1}}$, $\overline{J_{2}E_{2}}$ and $\overline{J_{3}E_{3}}$ can freely rotate around points $J_{1}$, $J_{2}$ and $J_{3}$ respectively, forming three spheres with radius $r_{e}$.
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=\maxwidth{13cm}, keepaspectratio]{Chapters/Fig/forward_kinematics_key_parameters.png}
+	\includegraphics[width=\maxwidth{10cm}, keepaspectratio]{Chapters/Fig/forward_kinematics_key_parameters.png}
 	\caption{Key parameters of forward kinematics}
 	\label{fig:forward_kinematics_key_parameters}
 \end{figure}
@@ -159,7 +173,7 @@ Now let's do the following: move the centers of the spheres from points , and to
 intersect in one point: $E_{0}$, as shown in the figure below:
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=\maxwidth{13cm}, keepaspectratio]{Chapters/Fig/intersection_of_three_spheres.png}
+	\includegraphics[width=\maxwidth{11cm}, keepaspectratio]{Chapters/Fig/intersection_of_three_spheres.png}
 	\caption{Intersection of three spheres}
 	\label{fig:intersection_of_three_spheres}
 \end{figure}
@@ -170,7 +184,7 @@ $$(x - x_{j})^{2} + (y - y_{j})^{2} + (z - z_{j})^{2} = r^{2}_{e}$$
 where the coordinates of sphere centers ($x_{j}$, $y_{j}$, $z_{j}$) and the radius $r_{e}$ are known. First, let's find the coordinates of points $J^{'}_{1}$, $J^{'}_{2}$, $J^{'}_{3}$:
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=\maxwidth{12cm}, keepaspectratio]{Chapters/Fig/find_J1_J2_J3_coordinates.png}
+	\includegraphics[width=\maxwidth{10cm}, keepaspectratio]{Chapters/Fig/find_J1_J2_J3_coordinates.png}
 	\caption{Find $J^{'}_{1}$, $J^{'}_{2}$, $J^{'}_{3}$ coordinates}
 	\label{fig:find_J1_J2_J3_coordinates}
 \end{figure}
@@ -189,9 +203,9 @@ In the following equations I'll designate the coordinates of points $J_{1}$, $J_
 
 \begin{flalign*}
 \begin{cases}
- x^{2} + (y - y_{1})^{2} + (z - z_{1})^2 = r^{2}_{e} \\ 
- (x - x_{2})^{2} + (y - y_{2})^{2} + (z - z_{2})^2 = r^{2}_{e}\\ 
- (x - x_{3})^{2} + (y - y_{3})^{2} + (z - z_{3})^2 = r^{2}_{e}\\ 
+x^{2} + (y - y_{1})^{2} + (z - z_{1})^2 = r^{2}_{e} \\ 
+(x - x_{2})^{2} + (y - y_{2})^{2} + (z - z_{2})^2 = r^{2}_{e}\\ 
+(x - x_{3})^{2} + (y - y_{3})^{2} + (z - z_{3})^2 = r^{2}_{e}\\ 
 \end{cases} 
 \end{flalign*}
 
@@ -204,7 +218,10 @@ x^{2} + y^{2} + z^{2} - 2x_{3}x - 2y_{3}y - 2z_{3}z = r^2_{e} - x^{2}_{3} - y^{2
 \begin{flalign*}
 w_{i} = x^{2}_{i} + y^{2}_{i} + z^{2}_{i}
 \end{flalign*} 
-\begin{numcases}{ }
+
+Where: (\ref{fk_4}) = (\ref{fk_1}) - (\ref{fk_2}) and (\ref{fk_5}) = (\ref{fk_1}) - (\ref{fk_3}) and (\ref{fk_6}) = (\ref{fk_2}) - (\ref{fk_3})	\\
+
+\begin{numcases}{ } 
 x_{2}x + (y_{1} - y_{2})y + (z_{1} - z_{2})z = \frac{w_{1} - w_{2}}{2} \label{fk_4}\\ 
 x_{3}x + (y_{1} - y_{3})y + (z_{1} - z_{3})z = \frac{w_{1} - w_{3}}{2} \label{fk_5}\\ 
 (x_{2} - x_{3})x + (y_{2} - y_{3})y + (z_{2} - z_{3})z = \frac{w_{1} - w_{3}}{2} \label{fk_6} 
@@ -367,7 +384,7 @@ Internal synchronous rectification control circuitry is provided to improve powe
 \subsubsection{Pololu - A4988 Stepper Motor Driver Carrier}
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=\maxwidth{8cm}, keepaspectratio]{Chapters/Fig/pololu_A4988.jpg}
+	\includegraphics[width=\maxwidth{5cm}, keepaspectratio]{Chapters/Fig/pololu_A4988.jpg}
 	\caption{Pololu - A4988 Stepper Motor Driver Carrier}
 	\label{fig:pololu_A4988}
 \end{figure}

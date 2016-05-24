@@ -15,18 +15,18 @@ The target screen size that the robot will operation on is $(4" \ast 6")$. With 
 	\label{fig:3D_delta_robot_simulator}
 \end{figure}
 
-I simulate Delta robot by GeoGebra and find out the parameters needed, show in Table.\ref{tab:arduinomega2560_technical_specs}. After that, I design the robot's model on SolidWorks.
+I simulate Delta robot by GeoGebra and find out the parameters needed, show in Table.\ref{tab:key_parameters_of_robot_geometry}. After that, I design the robot's model on SolidWorks.
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=\maxwidth{15cm}, keepaspectratio]{Chapters/Fig/key_parameters.png}
+	\includegraphics[width=\maxwidth{10cm}, keepaspectratio]{Chapters/Fig/key_parameters.png}
 	\caption{Key parameters of robot's geometry}
-	\label{fig:key_parameters}
+	\label{fig:key_parameters_value}
 \end{figure}
 
 \begin{table}[H]
 	\centering
 	\caption{Key parameters of robot's geometry}	
-	\label{tab:arduinomega2560_technical_specs}
+	\label{tab:key_parameters_of_robot_geometry}
 	\begin{tabularx}{0.65\textwidth}{ll}
 		\toprule
 		\textbf{Parameter} & \textbf{Length(mm)} 		\\
@@ -119,8 +119,13 @@ Here are the pinouts from the Pololu A4988 driver and the corresponding pin conn
 \end{figure}
 
 \subsubsection{Digital Filtering}
+Frequency interference is occured when the Robot is waiting for commands from server. The reason is that the input pin of the A4988 driver fell into undefined state (neirther 1 nor 0), then it's very susceptible to be interfer by the other frequencies. Specifically, in this case, it is interfer by 50 Hz frequency of the power supply.
 
-%Trình bày phương pháp khử nhiễu ở chân STEP
+To eliminate these interferences, we connect the STEP pin of A4988 driver to Vcc(+5V) by 10K Ohm resistor. 
+As a consequence, the STEP pin of will be pushed in to HIGH voltage level instead of falling into undefined stage. This resolves the phenomenon of interference.
+
+%Hiện tượng nhiễu tần số xảy ra khi Robot ở trong trạng thái chờ lệnh gửi đến từ server. Nguyên nhân là chân input của Arduino ở trạng thái ko xác định(không phải 1 cũng ko phải 0), khi đó nó rất dễ bị nhiễu bởi 1 tần số khác. cụ thể ở đây là tần số 50Hz của nguồn điện.
+%Dể khử nhiễu chúng tôi đã dùng 1 điện trở 10K ohm để nối chân STEP của driver A4988 vs Vcc +5V. Lúc đó, thay vì chân STEP rơi vào trạng thái ko xác định, nó đc đẩy lên mức điện áp cao. Theo cách này hiện tượng nhiễu đã được giải quyết.
 
 \subsection{LCD Displays circuit design}
 
@@ -202,6 +207,19 @@ Here are the pinouts from the LCD and the corresponding pin connection on the Ar
 	\caption{Class diagram}
 	\label{fig:class_diagram}
 \end{figure}
+
+When an action's execute method is invoked, it sends a moving command to Robot Controller. Robot Controller works like a black box. What outside clients see are high-level abstract methods. These methods include:
+
+	\begin{itemize}
+		\item[--] \textbf{InitPort}: initiate the connection with Arduino microcontroller.
+		\item[--] \textbf{ClosePort}: destroy the connection with Arduino mcrocontroller.
+		\item[--] \textbf{DetectArduino}: to check the connection.
+		\item[--] \textbf{Calibrate}: set the robot's pointer to initial location which is supposed to be the origin point in coordination system.
+		\item[--] \textbf{GotoXYZ}: most basic function, drive the pointer to any location in 3-D space.
+		\item[--] \textbf{ClickUp}, \textbf{ClickDown}: also derived from GotoXYZ, simply make the pointer up or down correspondingly.
+	\end{itemize}
+
+Without assembly intervention to the robot, the system can still interact and dictate the robot fluently under the control of a singleton class Robot Controller. By applying ``Singleton Pattern'' \footnote{Read more at: \url{http://www.oodesign.com/singleton-pattern.html}}, the robot's activities is well-handled in a form of queue and thus avoid the interference of simultaneous commands.
 
 \subsection{Sequence diagram}
 \subsubsection{Inverse kinematics}
@@ -296,7 +314,6 @@ $n_{1}$, $n_{2}$, $n_{3}$ in turn are the number of steps of stepper motor
 & n_{2} = d_{\theta2} / STEP\_SIZE &\\
 & n_{3} = d_{\theta3} / STEP\_SIZE &\\
 \end{flalign*}
-%(Còn tiếp: tính nốt speed và acceleration)
 $n_{MAX}$ is the largest step that stepper must execute. \\
 $speed_{i} = n_{i} * MAX\_SPEED / n_{MAX}$; \\
 $acceleration_{i} = n_{i} * MAX\_ACCELERATION / n_{MAX}$; \\

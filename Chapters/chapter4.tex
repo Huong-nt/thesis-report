@@ -4,7 +4,7 @@ This chapter presents details of the implementations, experiments and evaluation
 
 \section{Experimental environment}
 \subsection{Hardware configurations}
-In accuracy and stability test, Delta robot is enough. The tests for the automated mobile app testing system are conducted with the hardware configurations as shown in table \ref{tab:hw}. We use 2 phones running 2 different \acrshort{os} versions with different screen size and resolution for testing the portability of the system.
+In accuracy and stability test, only Delta robot is enough for the test. The tests for the automated mobile app testing system are conducted with the hardware configurations as shown in table \ref{tab:hw}. We use 2 phones running 2 different \acrshort{os} versions with different screen size and resolution for testing the portability of the system.
 
 \begin{table}[H]
 	\centering
@@ -43,8 +43,6 @@ In the test for automated mobile app testing system, beside running testing appl
 		\item[--] \textbf{Clock ICS}: tested application for Experiment 2. This application can be downloaded on Google Play Store \footnote{Available at: \url{https://play.google.com/store/apps/details?id=com.moblynx.clockics}}
 	\end{itemize}
 
-
-
 \section{Testing and evaluation}
 
 This section gives the details of all experiments that I have conducted to explore and evaluate accurate and stability of Delta robot, as well as it's feasibility in the real environment.
@@ -59,7 +57,7 @@ Open test application, use control API to move end effector to a point.
 	\centering
 	\caption{Experimental 1 result}	
 	\label{tab:experiment_1}
-	\begin{tabularx}{0.65\textwidth}{l|l}
+	\begin{tabularx}{0.4\textwidth}{l|l}
 		\toprule
 		\textbf{Destination}	& \textbf{Real Coordinate} \\
 		\midrule 
@@ -69,13 +67,23 @@ Open test application, use control API to move end effector to a point.
 		\midrule
 		$(20,0,-270)$			& $(20,0,-270)$ \\ 
 		\midrule
-		$(40,0,-270)$			& $(40,0,-270)$ \\ 
+		$(40,0,-270)$			& $(39,0,-270)$ \\ 
 		\midrule
+		$(80,0,-270)$			& $(79,0,-272)$ \\ 
+		\midrule
+		$(0,10,-270)$			& $(0,10,-270)$ \\ 
+		\midrule
+		$(0,20,-270)$			& $(0,19,-270)$ \\ 
+		\midrule
+		$(0,40,-270)$			& $(0,39,-270)$ \\ 
+		\midrule
+		$(0,80,-270)$			& $(0,78,-271)$ \\ 
 		\bottomrule
 	\end{tabularx}
 \end{table}
 
 %Robot hoạt động chính xác ở phần gần với trục Z, càng xa trục Z(x, y càng lớn) thì robot hoạt động càng kém chính xác hơn.
+The accurate of robot depend on the z-axis. The closer end-effector is to the z-axis the more accurate it operates.
 
 \subsection{Experiment 2: Test robot stability}
 \subsubsection{Experiment's purpose}
@@ -84,43 +92,94 @@ Check the stability of the Delta Robot when running the test script repeatedly.
 Open test application, use control API to move end effector to a point and back repeatedly. Specifically, I move the end efector of Delta Robot from point $(-8, 0, -270)$ to $(-8, 0, -270)$ and back 10 times.
 
 \subsubsection{Experimental result and evaluations}
+% \begin{table}[H]
+% \centering
+% \caption{Experimental 2 result}
+% \label{tab:experiment_2}
+% \begin{tabular}{|l|l|l|}
+% \hline
+% \multirow{2}{*}{Times} & \multicolumn{2}{l|}{Value of potentiometer} \\ \cline{2-3} 
+%                        & (-80, 0, -270)        & (80, 0, -270)       \\ \hline
+% 1                      & 526:288:490           & 526:507:289         \\ \hline
+% 2                      & 524:286:490           & 524:505:290         \\ \hline
+% 3                      & 524:286:491           & 524:506:291         \\ \hline
+% 4                      & 526:288:490           & 525:507:289         \\ \hline
+% 5                      & 525:288:490           & 524:505:289         \\ \hline
+% 6                      & 526:287:491           & 524:505:290         \\ \hline
+% 7                      & 526:288:490           & 526:506:291         \\ \hline
+% 8                      & 527:288:489           & 524:505:290         \\ \hline
+% 9                      & 526:288:489           & 524:507:290         \\ \hline
+% 10                     & 523:288:490           & 526:505:292         \\ \hline
+% \end{tabular}
+% \end{table}
+%Robot hoạt động ổn định dưới sai số cho phép của potentiometer(10%)
 \begin{table}[H]
 \centering
-\caption{Experimental 2 result}
-\label{tab:experiment_2}
-\begin{tabular}{|l|l|l|}
+\caption{Experimental 2 result: table 1}
+\label{tab:experiment_2_table_1}
+\begin{tabular}{ | l | l | l | l | }
 \hline
-\multirow{2}{*}{Times} & \multicolumn{2}{l|}{Value of potentiometer} \\ \cline{2-3} 
-                       & (-80, 0, -270)        & (80, 0, -270)       \\ \hline
-1                      & 526:288:490           & 526:507:289         \\ \hline
-2                      & 524:286:490           & 524:505:290         \\ \hline
-3                      & 524:286:491           & 524:506:291         \\ \hline
-4                      & 526:288:490           & 525:507:289         \\ \hline
-5                      & 525:288:490           & 524:505:289         \\ \hline
-6                      & 526:287:491           & 524:505:290         \\ \hline
-7                      & 526:288:490           & 526:506:291         \\ \hline
-8                      & 527:288:489           & 524:505:290         \\ \hline
-9                      & 526:288:489           & 524:507:290         \\ \hline
-10                     & 523:288:490           & 526:505:292         \\ \hline
+	\multicolumn{4}{|l|}{\textbf{Point (-80, 0, -270)}} \\ \hline
+	\textbf{Time} & \textbf{P1} & \textbf{P2} & \textbf{P3} \\ \hline
+	1 & 542 & 292 & 492 \\ \hline
+	2 & 542 & 290 & 492 \\ \hline
+	3 & 542 & 291 & 493 \\ \hline
+	4 & 541 & 291 & 493 \\ \hline
+	5 & 540 & 289 & 493 \\ \hline
+	6 & 539 & 289 & 491 \\ \hline
+	7 & 539 & 291 & 490 \\ \hline
+	8 & 542 & 292 & 491 \\ \hline
+	9 & 542 & 292 & 491 \\ \hline
+	10 & 541 & 291 & 490 \\ \hline
+	\textbf{Avg} & 541 & 290.8 & 491.6 \\ \hline
+	\textbf{Standard Deviation} & 1.247 & 1.135 & 1.174 \\ \hline
 \end{tabular}
 \end{table}
-%Robot hoạt động ổn định dưới sai số cho phép của potentiometer(10%)
+
+\begin{table}[H]
+\centering
+\caption{Experimental 2 result: table 2}
+\label{tab:experiment_2_table_2}
+\begin{tabular}{ | l | l | l | l | }
+\hline
+	\multicolumn{4}{|l|}{\textbf{Point (80, 0, -270)}} \\ \hline
+	\textbf{Time} & \textbf{P1} & \textbf{P2} & \textbf{P3} \\ \hline
+	1 & 534 & 507 & 291 \\ \hline
+	2 & 534 & 507 & 291 \\ \hline
+	3 & 534 & 507 & 291 \\ \hline
+	4 & 534 & 507 & 291 \\ \hline
+	5 & 533 & 508 & 291 \\ \hline
+	6 & 534 & 507 & 291 \\ \hline
+	7 & 534 & 507 & 291 \\ \hline
+	8 & 534 & 506 & 292 \\ \hline
+	9 & 534 & 506 & 292 \\ \hline
+	10 & 531 & 506 & 292 \\ \hline
+	\textbf{Avg} & 533.6 & 506.8 & 291.3 \\ \hline
+	\textbf{Standard Deviation} & 0.966 & 0.632 & 0.483 \\ \hline
+\end{tabular}
+\end{table}
+As can be seen from Table.\ref{tab:experiment_2_table_1} and Table.\ref{tab:experiment_2_table_2}, the Standard Deviation of value of Potentiometters are very small which means that the robot rotation angle varies only slightly among experiments. Therefore, the operation of Delta-robot is stable.
+
+The robot can perform one action over the high intensity of repetition without any mistake. This advantage helps the system to hold a high stability over time.
 
 \subsection{Experiment 3: Simple Click test}
 \subsubsection{Experiment's purpose}
 Control the robot move and click on the screen, I can test the working accuracy of the robot when working in the testing system.
 \subsubsection{Experimental setup}
-Open Click test application.
+\begin{itemize}
+		\item[--]Open Click test application on the phone. Let the application be at initial page.
+		\item[--]Follow the experimental procedure mentioned in previous section.
+\end{itemize}
 \subsubsection{Experimental result and evaluations}
-Begin test
+Begin test screen, the robot need to click on READY button.
 	\begin{figure}[H]
 		\centering
 		\includegraphics[width=\maxwidth{15cm}, keepaspectratio]{Chapters/Fig/click_start.png}
 		\caption{Begin click test}
 		\label{fig:click_start}
 	\end{figure}
-
-Final result
+After clicking on READY, SUCCESS button appears. The robot is commanded to click on it. \\
+Final result when READY is clicked. The test is Passed.
 	\begin{figure}[H]
 		\centering
 		\includegraphics[width=\maxwidth{15cm}, keepaspectratio]{Chapters/Fig/click_final.png}
@@ -130,41 +189,45 @@ Final result
 \begin{table}[H]
 	\centering
 	\caption{Experiment 3: Test results statistic}	
-	\label{tab:result_stat}
+	\label{tab:exp3_result_stat}
 	\begin{tabular}{|lll|r|}
 		\hline
 		\textbf{Number of tests} & \textbf{Successful} & \textbf{Failed} & \textbf{Rate} \\
 		\hline
-		20 & 19 & 1 & 95$\%$\\
+		20 & 20 & 0 & 100$\%$\\
 		\hline
 	\end{tabular}
 \end{table}
+For simple task such as Simple Click, the system reaches absolute preciseness thus not any problem is made.
+
 \subsection{Experiment 4: Set Alarm}
 \subsubsection{Experiment's purpose}
 Based on experiment control Delta robot select and setup alarm, I can test all the touch and swipe action
 \subsubsection{Experimental setup}
-Open Clock ICS application. Then open set alarm item.
+	\begin{itemize}
+		\item[--]Open Clock ICS application on the phone. Switch to Alarms screen of the application.
+		\item[--]Follow the experimental procedure in previous section.
+	\end{itemize}
 
 \subsubsection{Experimental result and evaluations}
-Begin test
+Before running the test, initial alarms are 8:30 AM and 9:00 AM. The goal of the test is to change 8:30 AM to 11:30 AM.
 	\begin{figure}[H]
 		\centering
 		\includegraphics[width=\maxwidth{15cm}, keepaspectratio]{Chapters/Fig/alarm_start.png}
-		\caption{begin alarm test}
+		\caption{Begin alarm test}
 		\label{fig:alarm_start}
 	\end{figure}
-
-Final result
+After proceeding some operations, the final screen of the application is shown below. 11:30 AM shows up and the test is successfully passed.
 	\begin{figure}[H]
 		\centering
 		\includegraphics[width=\maxwidth{15cm}, keepaspectratio]{Chapters/Fig/alarm_final.png}
-		\caption{final alarm test}
+		\caption{Final alarm test}
 		\label{fig:alarm_final}
 	\end{figure}
 \begin{table}[H]
 	\centering
 	\caption{Experiment 4: Test results statistic}	
-	\label{tab:result_stat}
+	\label{tab:exp4_result_stat}
 	\begin{tabular}{|lll|r|}
 		\hline
 		\textbf{Number of tests} & \textbf{Successful} & \textbf{Failed} & \textbf{Rate} \\
@@ -174,5 +237,8 @@ Final result
 	\end{tabular}
 \end{table}
 
+In Set Alarm task, Delta robot completes precisely the swipe screen action.
 
+\section{Conclusion}
+Throughout all experiment, the delta robot successfully pass all the automated testing case, which indicates it has a high accurately and stability moreover the robot work very well in the specified spatial working area ($4"\times6"$). This implies that my robot can be applied in real-world applications.
 
