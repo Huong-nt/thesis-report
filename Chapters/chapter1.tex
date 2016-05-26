@@ -12,7 +12,8 @@ We propose a new approach that in its design, software and hardware testing are 
 
 \section{System overview}
 
-The system overview and design are described below in Figure \ref{fig:system_overview}.
+The system overview and design are described below in Figure.\ref{fig:system_overview}.
+Our system contains two parts: hardware and software. Hardware part includes Delta robot with its controllers. This part takes responsibility for contacting with the mobile phone, as a human doing. The software framework receives the phone's screen and analyzes data for deciding what action to be executed by the Delta robot. These two parts are connected by a controller module which provides a command interface for the software program to communicate with the hardware layer.
 
 In this thesis, I am responsible for the hardware component of our system. Specifically, I develope and manufactured a Delta Robot and provide control API. The testing framework which is designed and constructed by my partner, \textit{Hieu} Nguyen Duc uses my robot controller module to perform the test.
 
@@ -25,13 +26,22 @@ In this thesis, I am responsible for the hardware component of our system. Speci
 
 \section{Goals of the thesis}
 In order to develop a Automated Mobile App Testing System based on the Delta robot, the following objectives are proposed:
+
+\begin{itemize}
+\item[--] Software applications
 	\begin{itemize}
-		\item[--] Choosing a Robotic Platform.
-		\item[--] Design and manufacture hardware.
-		\item[--] Creating control library(API). 
-		\item[--] Delta robot can tap, tap and hold, swipe on phone screen.
-		%có thể tap, tap and hold, swipe... trên màn hình phone
+		\item[+] To detect and recognize mobile phone screen's components (button, selection box, text, keyboard).
+		\item[+] To generate test scripts compactly and conveniently.
 	\end{itemize}
+\item[--] Hardware demands
+	\begin{itemize}
+		\item[+] Choosing a Robotic Platform.
+		\item[+] Design and manufacture a Delta robot.
+		\item[+] Creating control library(\glspl{api}).
+		\item[+] To perform a testing process on the robot with gestures: tap, tap and hold, swipe,... on the phone.
+		\item[+] Every action must be executed precisely in the target position.
+	\end{itemize}
+\end{itemize}
 
 \section{Outline of thesis}
 

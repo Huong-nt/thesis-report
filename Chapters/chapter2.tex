@@ -4,14 +4,13 @@
 
 \chapter{Background}
 
-In this chapter, I presented the background knowledge to build a Delta Robot. The reason that we choose the parallel robot, as well as the advantages and disadvantages of a robot with a parallel mechanisms are described. A review of different parallel mechanisms and their industrial application is presented. 
+In this chapter, I presented the background knowledge to build a Delta Robot. The advantages and disadvantages of a robot with a parallel mechanisms compare to serial mechanisms, as well as the reasons that we choose the parallel robot are described. A review of different parallel mechanisms and their industrial application is presented. 
 In section 2.3, I described about the kinematics solution of the Delta robot, which is the most important issue to design Delta robot.
-The chapter closes with two section introduction to the Arduino and A4988.
+The chapter closes with two section introduction to the Arduino Mega 2560 R3 microcontroller and A4988 Stepper Motor Driver.
 
 \section{Robotic arm and choose the type of robotic arm.}
 
 The word robot was introduced in 1921 by the Czech playwright Karel Capek in his satirical play R. U. R. (Rossum’s Universal Robots),where he depicted robots as machines which resembled people but worked tirelessly The structure of a robot is usually mostly mechanical and can be called a kinematic chain. The system structures of a robot varies depending on the task it will perform. A typically industrial robot is the serial robot which is built up by an open kinematic chain. This chain can be described as links connected to each other with revolute joints driven by actuators. This type of structure is often seen in the car industry.
-
 \begin{figure}[H]
     \centering
     \subfloat[Serial robotic arm]{{\includegraphics[width=7cm]{Chapters/Fig/serial_robot_demo.jpg} }}%
@@ -20,14 +19,13 @@ The word robot was introduced in 1921 by the Czech playwright Karel Capek in his
     \caption{Two type of robotic arm}%
     \label{fig:type_of_robotic_arm}%
 \end{figure}
-
 The history of industrial automation is characterized by periods of rapid change in popular methods. Either as a cause or, perhaps, an effect, such periods of change in automation techniques seem closely tied to world economics. Along with computer aided design (CAD) systems, and computer aided manufacturing (CAM) systems the industrial robot became identifiable as a unique device, in the 1960’s (2). The robots are growing in complexity and their use in industry is becoming more widespread. This leads to new structures with different advantages and disadvantages\cite{intro_robotic_thesis}.
 
 Parallel structures as the Delta robot possess a number of advantages when compared with serial manipulators. They offer generally a much higher rigidity and smaller mobile mass than their serial counterparts. Thus, they can move a much heavier payload relative to the components of body mass compared to a serial manipulator. The system structure of a Delta robot also makes it more stiff perpendicular to the traveling plate (e.g. resistive against vibration perpendicular to the traveling plate). The major drawback of the parallel robots is their limited range of motion compared to a serial robot, but with a system structure as the Delta robot, this limitation has partially been resolved.
 
 \begin{table}[H]
 \centering
-\caption{Characteristics of serial and parallel robots\cite{compare_serial_parallel_robots_thesis}}
+\caption{Characteristics of Serial and Parallel robots\cite{compare_serial_parallel_robots_thesis}}
 \label{tab:Characteristics_of_serial_and_parallel_robots}
 \begin{tabular}{|l|l|l|}
 \specialrule{.2em}{.1em}{.1em}
@@ -258,7 +256,7 @@ The Mega 2560 is a microcontroller board based on the ATmega2560. The main struc
 \end{itemize}
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=\maxwidth{15cm}, keepaspectratio]{Chapters/Fig/arduinomega2560_pinouts.png}
+	\includegraphics[width=\maxwidth{14cm}, keepaspectratio]{Chapters/Fig/arduinomega2560_pinouts.png}
 	\caption{Arduino Mega 2560 R3 pinouts}
 	\label{fig:arduinomega2560_pinouts}
 \end{figure}
@@ -311,7 +309,7 @@ The ATmega2560 has 256 KB of flash memory for storing code (of which 8 KB is use
 \subsection{Stepper Motor}
 
 A stepper motor is an electromechanical device which converts electrical pulses into discrete mechanical movements. The shaft or spindle of a stepper motor rotates in discrete step increments when electrical command pulses are applied to it in the proper sequence. The motors rotation has several direct relationships to these applied input pulses. The sequence of the applied pulses is directly related to the direction of motor shafts rotation. The speed of the motor shafts rotation is directly related to the frequency of the input pulses and the length of rotation is directly related to the number of input pulses applied.
-\subsubsection{Stepper Motor Advantages and Disadvantages}
+\subsubsection{Stepper Motor Advantages and Disadvantages\cite{advantages_disadvantage_steppermotor_thesis}}
 \begin{itemize}
 \item \textbf{Advantages}:
 \begin{itemize}
@@ -347,7 +345,7 @@ Unlike DC or servo motors, step motors are synchronous devices. Any torque gener
 	\caption{Stepper motor system overview}
 	\label{fig:stepper_motor_system}
 \end{figure}
-The controller is a microprocessor(i.e. Arduino microcontroller,...) that directly processes the sophisticated high-level commands and provides step pulses and direction outputs to the driver. Usually, it is a programmable device and the programming process is accomplished with hardware switch settings. Most of applications require that the indexer manage other functions including acceleration, deceleration, drive resolution and distance as well. Microprocessor-based controller offer flexibility that they can operate in either stand-alone mode or interfaced to a host computer.
+The controller is a microprocessor(e.g. Arduino microcontroller,...) that directly processes the sophisticated high-level commands and provides step pulses and direction outputs to the driver. Usually, it is a programmable device and the programming process is accomplished with hardware switch settings. Most of applications require that the indexer manage other functions including acceleration, deceleration, drive resolution and distance as well. Microprocessor-based controller offer flexibility that they can operate in either stand-alone mode or interfaced to a host computer.
 
 The main function of the driver is to convert the controller output signal into the power (voltage or current) necessary to drive the motor winding. One step pulse from the driver is required by one step advance of the motor shaft. In other word, the speed and torque performance of the step motor is based on the flow of current from the driver to the motor winding. Inductance, the most important parameter of the driver, refers to the time it takes for the current to energized the winding. In most industrial applications, driver circuits are designed to supply a greater amount of voltage than the voltage that drives the motors.
 

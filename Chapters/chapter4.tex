@@ -1,6 +1,6 @@
 \chapter{Testing and evaluation}
 
-This chapter presents details of the implementations, experiments and evaluations for the Delta robot and testing system in previous chapter. Section 1 describes the experimental environment, which include hardware and supporting hardware. Subsequently, section 2 presents all the experiments along with evaluation and assessment.
+This chapter presents details of the implementations, experiments and evaluations for the Delta robot and testing system in previous chapter. Section 1 describes the experimental environment, which include hardware and supporting hardware. Subsequently, section 2 presents all the experiments along with evaluation and assessment. In the final section, conclusions are presented to the end of this chapter.
 
 \section{Experimental environment}
 \subsection{Hardware configurations}
@@ -238,6 +238,50 @@ After proceeding some operations, the final screen of the application is shown b
 \end{table}
 
 In Set Alarm task, Delta robot completes precisely the swipe screen action.
+
+\subsection{Experiment 5: Set alarm label}
+\subsubsection{Experimental purpose}
+This experiment is conducted to verify the high-demanded precision in clicking items.
+
+In addition, this test can also be considered as a real test case for an alarm application on Android phones that the tester has to carry out before releasing the application to the market.
+
+\subsubsection{Experimental setup}
+Set up as Experiment 4.
+
+\subsubsection{Experimental results}
+Before running the test, initial alarms are 8:30 AM with no label.
+
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.5]{Chapters/Fig/label_first.png}
+		\caption{Begin typing test}
+		\label{fig:label_first}
+	\end{figure}
+
+After proceeding some operations, the final screen of the application is shown below. 8:30 AM has label ``i love dce'' on the right. The test is successfully passed.
+
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.5]{Chapters/Fig/label_final.png}
+		\caption{Final typing test}
+		\label{fig:label_final}
+	\end{figure}
+
+\begin{table}[H]
+	\centering
+	\caption{Experiment 5: Set alarm label}	
+	\label{tab:exp3_result_stat}
+	\begin{tabular}{|lll|r|}
+		\hline
+		\textbf{Number of tests} & \textbf{Successful} & \textbf{Failed} & \textbf{Rate} \\
+		\hline
+		10 & 3 & 7 & 30$\%$\\
+		\hline
+	\end{tabular}
+\end{table}
+
+
+%I also have published a video about my delta robot on youtube. You can see it at: 
 
 \section{Conclusion}
 Throughout all experiment, the delta robot successfully pass all the automated testing case, which indicates it has a high accurately and stability moreover the robot work very well in the specified spatial working area ($4"\times6"$). This implies that my robot can be applied in real-world applications.
