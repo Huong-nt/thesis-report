@@ -5,7 +5,7 @@
 \chapter{Background}
 
 In this chapter, I presented the background knowledge to build a Delta Robot. The advantages and disadvantages of a robot with a parallel mechanisms compare to serial mechanisms, as well as the reasons that we choose the parallel robot are described. A review of different parallel mechanisms and their industrial application is presented. 
-In section 2.3, I described about the kinematics solution of the Delta robot, which is the most important issue to design Delta robot.
+In sub-section 2.2.3, I described about the kinematics solution of the Delta robot, which is the most important issue to design Delta robot.
 The chapter closes with two section introduction to the Arduino Mega 2560 R3 microcontroller and A4988 Stepper Motor Driver.
 
 \section{Robotic arm and choose the type of robotic arm.}
@@ -31,20 +31,20 @@ Parallel structures as the Delta robot possess a number of advantages when compa
 \specialrule{.2em}{.1em}{.1em}
 \textbf{Feature}                & \textbf{Serial robot} & \textbf{Parallel robot} \\ \specialrule{.2em}{.1em}{.1em}
 Workspace                       & Large      			& Small and complex       \\ \hline
-Solving forward kinematics      & Easy  				& Very \\ \hline
+Solving forward kinematics      & Easy  				& Very difficult\\ \hline
 Solving inverse kinematics      & Difficult             & Easy                     \\ \hline
 Position error                  & Accumulates           & Averages                 \\ \hline
 Force error                     & Averages              & Accumulates              \\ \hline
 Maximum force                   & \begin{tabular}[c]{@{}l@{}}Limited by minimum\\ actuator force\end{tabular} & \begin{tabular}[c]{@{}l@{}}Summation of all\\ actuator forces\end{tabular}           \\ \hline
 Stiffness                       & Low                   & High                     \\ \hline
 Dynamics characteristics        & \begin{tabular}[c]{@{}l@{}}Poor, especially with \\ increasing the size\end{tabular} & Very high             \\ \hline
-\begin{tabular}[c]{@{}l@{}}Modelling andsolving \\ dynamics\end{tabular} & Relatively simple     & Very complex       \\ \hline
+\begin{tabular}[c]{@{}l@{}}Modelling and solving \\ dynamics\end{tabular} & Relatively simple     & Very complex       \\ \hline
 Inertia                         & Large                 & Small                    \\ \hline
-Areas ofapplication             & \begin{tabular}[c]{@{}l@{}}A great number in \\ different areas, \\ especially in industry\end{tabular} & \begin{tabular}[c]{@{}l@{}}Currently limited, \\ especially in industry\end{tabular} \\ \hline
+Areas of application            & \begin{tabular}[c]{@{}l@{}}A great number in \\ different areas, \\ especially in industry\end{tabular} & \begin{tabular}[c]{@{}l@{}}Currently limited, \\ especially in industry\end{tabular} \\ \hline
 Payload/weight ratio            & Low                   & High                     \\ \hline
-Speed andacceleration           & Low                   & High               		\\ \hline
+Speed and acceleration          & Low                   & High               		\\ \hline
 Accuracy                        & Low                   & High                   	\\ \hline
-Uniformity ofcomponents         & Low                   & High                      \\ \hline
+Uniformity of components        & Low                   & High                      \\ \hline
 Calibration                     & Relatively simple     & Complicated               \\ \hline
 Workspace/robot size ratio      & High                  & Low               		\\ \hline
 \end{tabular}
@@ -71,7 +71,7 @@ The use of base-mounted actuators and low-mass links allows the mobile platform 
 
 Industries that take advantage of the Delta robot’s high speed are the packaging, medical and pharmaceutical industries. Other possible applications include assembly tasks or operation in a clean room for electronic components. More recently, Delta robot is the low-cost solution to build 3D printer for about a few hundred dollars from RepRap project\cite{reprap_thesis}. The Delta robot’s structure can also be used to build a Automated System Testing for mobile phone.
 
-\section{Delta robot kinematics}
+\subsection{Delta robot kinematics}
 
 To build delta robot we need to solve two problems. Firstly, given the desired position of the end effector (for example, to catch a pancake in the point with coordinates $x$,$y$,$z$), it is necessary to determine the corresponding angles of each of three arms (joint angles) in order to set the motors (and, thereby, the end effector) in proper position for grasping. This process is known as inverse kinematics. 
 
@@ -87,14 +87,15 @@ To solve inverse kinematics problems we have to create a function with the coord
 	\caption{Kinematic scheme of the delta robot}
 	\label{fig:kinematic_scheme}
 \end{figure}
-\subsection{Inverse kinematics}
+\subsubsection{Inverse kinematics}
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=\maxwidth{15cm}, keepaspectratio]{Chapters/Fig/inverse_kinematics.png}
 	\caption{inverse kinematics transforms the robots position (x,y,z) into the three upper arm angle positions $\theta_{1}$, $\theta_{2}$, $\theta_{3}$}
 	\label{fig:inverse_kinematics}
 \end{figure}
-\subsubsection{Some key parameters}
+
+\textbf{Some key parameters} \\
 
 First, let's determine some key parameters of our robot's geometry. Let's designate the side of the fixed triangle as $f$, the side of the end effector triangle as $e$, the length of the upper joint as $r_{f}$,  and the length of the parallelogram joint as $r_{e}$. These are physical parameters that are determined by the robot. The reference frame will be chosen with the origin at the fixed triangle's centre of symmetry, as shown below, so that the z-coordinate of the end effector will always be negative.
 \begin{figure}[H]
@@ -112,7 +113,9 @@ Because of the robot's design, joint $\overline{F_{1}J_{1}}$ can only rotate in 
 \end{figure}
 The intersection of this sphere and the YZ plane is a circle centered in point $E^{'}_{1}$ with radius $\overline{E^{'}_{1}J_{1}}$, where $E^{'}_{1}$ is the projection of the point $E_{1}$ on the YZ plane. The point can be found now as the intersection of two circles of known radius centered in $E^{'}_{1}$ and $F_{1}$ respectively (we should choose only one intersection point with a smaller Y-coordinate). And if we know $J_{1}$, we can calculate the angle of $\theta_{1}$.
 Such algebraic simplicity follows from our good choice regarding the frame of reference, which causes joint $\overline{F_{1}J_{1}}$ to move in the YZ plane only. As such, we can completely omit the X coordinate.
-\subsubsection{Equations}
+
+\textbf{Equations} \\
+
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=\maxwidth{10cm}, keepaspectratio]{Chapters/Fig/find_theta1.png}
@@ -147,14 +150,16 @@ We've got a new reference frame X'Y'Z', and with this frame we can find the angl
 	\label{fig:find_theta2_and_theta3}
 \end{figure}
 
-\subsection{Forward kinematics}
+\subsubsection{Forward kinematics}
+
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=\maxwidth{15cm}, keepaspectratio]{Chapters/Fig/forward_kinematics.png}
 	\caption{Forward kinematics transforms the three arm angle positions $\theta_{1}$, $\theta_{2}$, $\theta_{3}$ into the x,y and z}
 	\label{fig:forward_kinematics}
 \end{figure}
-\subsubsection{Some key parameters}
+
+\textbf{Some key parameters} \\
 
 Now that the three joint angles ($\theta_{1}$, $\theta_{2}$, $\theta_{3}$) are known, and we need to find the coordinates ($x_{0}$, $y_{0}$, $z_{0}$) of the end effector point $E_{0}$.
 Since we know the angles, we can easily find the coordinates of points $J_{1}$, $J_{2}$ and $J_{3}$ (see fig. below).
@@ -173,7 +178,8 @@ intersect in one point: $E_{0}$, as shown in the figure below:
 	\caption{Intersection of three spheres}
 	\label{fig:intersection_of_three_spheres}
 \end{figure}
-\subsubsection{Equations}
+
+\textbf{Equations} \\
 
 So, to find the coordinates ($x_{0}$, $y_{0}$, $z_{0}$) of the point $E_{0}$, we need to solve a set of three equations like
 $$(x - x_{j})^{2} + (y - y_{j})^{2} + (z - z_{j})^{2} = r^{2}_{e}$$
